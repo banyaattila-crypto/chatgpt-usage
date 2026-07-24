@@ -498,12 +498,13 @@
       else { tTxt.textContent=`Biztos: ${HF(projEnd)}%`; tTxt.style.color="var(--green)"; }
     }
 
-    // reset badge: az utolso napon ora/formaban
+    // reset badge: ha <24 ora van hatra, ora/formaban
     const rb = document.getElementById("resetBadge");
-    const remDays = Math.max(0, Math.ceil((c.end-now)/DAY_MS - 0.0001));
-    if(remDays < 1){
+    const msLeft = c.end - now;
+    if(msLeft < DAY_MS){
       rb.textContent = `${rh} óra múlva Reset!`;
     } else {
+      const remDays = Math.ceil(msLeft/DAY_MS - 0.0001);
       rb.textContent = `${remDays} nap Reset!`;
     }
 
