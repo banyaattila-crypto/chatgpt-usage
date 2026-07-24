@@ -40,6 +40,7 @@ const document = {
   getElementById: (id) => getEl(id),
   createElement: () => makeEl("dyn"),
   createElementNS: () => makeEl("dynNS"),
+  querySelector: () => null,
   addEventListener: () => {},
   hidden: false,
   documentElement: makeEl("html"),
@@ -55,7 +56,7 @@ const sandbox = {
   document, localStorage, console,
   Date, Math, JSON, Object, Array, setTimeout, parseFloat, isNaN, alert: () => {},
   performance: { now: () => Date.now() },
-  requestAnimationFrame: () => 1,
+  requestAnimationFrame: (cb) => { try { cb(performance.now()); } catch(e){} return 1; },
   Notification: undefined,
   navigator: {},
   window: {},
@@ -78,10 +79,11 @@ const chart = getEl("chart");
 const daygrid = getEl("daygrid");
 const bigPct = getEl("bigPct");
 
-// bubbles group check
+// bubbles group check (ensureBubbles creates #bubbles inside chart svg)
 const bubblesGroup = chart._children.find(ch => ch.attributes && ch.attributes.id === "bubbles");
 const bubbleCircles = bubblesGroup ? bubblesGroup._children : [];
-const animCount = bubbleCircles.reduce((n, c) => n + (c._children ? c._children.length : 0), 0);
+// after one rAF tick, circles should have a cx attribute set
+const movedCircles = bubbleCircles.filter(c => c.attributes && typeof c.attributes.cx !== "undefined");
 
 console.log("=== RESULTS ===");
 console.log("no JS error:         ", threw === null);
@@ -92,12 +94,12 @@ console.log("chart has <path>:    ", chart.innerHTML.includes("<path"));
 console.log("chart has <circle>:  ", chart.innerHTML.includes("<circle"));
 console.log("chart has planned L: ", chart.innerHTML.includes("L24.0") || chart.innerHTML.includes("M28"));
 console.log("bubbles group exists:", bubblesGroup !== undefined);
-console.log("bubble circles:      ", bubbleCircles.length);
-console.log("bubble SMIL anims:   ", animCount, "(should be 2x circles = cx + opacity)");
+console.log("bubble circles:      ", bubbleCircles.length, "(should be 30)");
+console.log("circles with cx set: ", movedCircles.length, "(after 1 tick)");
 
 if (chart.innerHTML.length > 0 && chart.innerHTML.includes("<path") && daygrid._children.length === 7
-    && bubblesGroup && bubbleCircles.length >= 10 && animCount >= 20) {
-  console.log("\nPASS: grafikon, napi racs es uszo pontok is renderelodtek.");
+    && bubblesGroup && bubbleCircles.length >= 28 && movedCircles.length >= 28) {
+  console.log("\nPASS: grafikon, napi racs es uszo pontok (gyorsulo) is renderelodtek.");
   process.exit(0);
 } else {
   console.error("\nFAIL: valami nem renderelodott.");

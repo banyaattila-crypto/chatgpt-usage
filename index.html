@@ -483,6 +483,8 @@
     rb.textContent = `${remDays} nap Reset!`;
 
     drawChart(c, state.history);
+    currentFrac = c.frac;            // buborek-sebesseg: ciklus elorehaladtaval gyorsul
+    ensureBubbles(document.getElementById("chart"), 28, 408, 16, 194);
     renderHistory(c);
   }
 
@@ -642,55 +644,64 @@
     } catch(e) {
       console.error("drawChart render hiba:", e);
     }
-    // BALROL JOBBRA USZO KIS PONTOK (buborekok) - vegtelen ciklusban ataramlanak a grafikonon.
-    // SVG-bol inditott SMIL animacio (mukodik bongeszoben es PWA-bol is), nem kell JS tick.
-    drawBubbles(svg, x0, x1, y1, y0, c);
   }
 
-  // Uszo pontok: tobb hullam, kulonbozo magassagban, kulonbozo sebesseggel.
-  // Minden pont bal szelrol (x0) indul, jobb szelre (x1) uszik, majd az animacio végtelenitve ujraindul.
-  function drawBubbles(svg, x0, x1, y1, y0, c){
+  // ---- BALROL JOBBRA USZO PONTOK (buborekok) ----
+  // JavaScript rAF animacio: a sebesseg a ciklus elorehaladtaval (frac) gyorsul,
+  // igy a P 16:00 (vege) fele egyre gyorsabban szaladnak at a pontok.
+  // A pozicio gyorsulo: cx = x0 + (x1-x0)*phase^2  (phase 0..1 a pont sajat utjan).
+  let bubblesGroup = null;
+  let bubblePts = [];        // {phase, wave}
+  let bubbleRAF = null;
+  let lastBubbleT = 0;
+  let currentFrac = 0;       // a ciklus aktualis frag-je (render tolti fel)
+  const B_WAVES = [
+    { n: 10, yFrac: 0.80, r: 2.2, base: 0.085, op: 0.55, color: "#ffc857" }, // also sarga
+    { n: 8,  yFrac: 0.54, r: 1.8, base: 0.065, op: 0.45, color: "#34d399" }, // kozepe zold
+    { n: 12, yFrac: 0.30, r: 1.5, base: 0.105, op: 0.40, color: "#7dd3fc" }, // felso kek
+  ];
+  function ensureBubbles(svg, x0, x1, y1, y0){
     if(!svg) return;
-    const g = document.createElementNS("http://www.w3.org/2000/svg","g");
-    g.setAttribute("id","bubbles");
-    const W = x1 - x0;
-    // 3 hullam, mindegyik mas magassagon + sebessegen, hogy 'elerje' a hatast
-    const waves = [
-      { n: 5, yFrac: 0.78, r: 2.2, dur: 9,  op: 0.55, color: "#ffc857" }, // also sarga
-      { n: 4, yFrac: 0.52, r: 1.8, dur: 12, op: 0.45, color: "#34d399" }, // kozepe zold
-      { n: 6, yFrac: 0.30, r: 1.5, dur: 7.5, op: 0.40, color: "#7dd3fc" }, // felso kek
-    ];
-    waves.forEach(w=>{
+    bubblesGroup = svg.querySelector ? svg.querySelector("#bubbles") : null;
+    if(bubblesGroup && bubblePts.length) return; // mar van, ne duplazzuk
+    bubblesGroup = document.createElementNS("http://www.w3.org/2000/svg","g");
+    bubblesGroup.setAttribute("id","bubbles");
+    bubblePts = [];
+    B_WAVES.forEach(w=>{
       const y = y1 + (y0 - y1) * w.yFrac;
       for(let i=0;i<w.n;i++){
-        // faziseltolas: egyenletesen osztva a cikluson, hogy folyamatosan erkezzenek
-        const begin = `-${(w.dur * i / w.n).toFixed(2)}s`;
         const circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
         circ.setAttribute("r", w.r);
         circ.setAttribute("cy", y.toFixed(1));
         circ.setAttribute("fill", w.color);
         circ.setAttribute("opacity", w.op);
-        // belso halovany glow
-        const animX = document.createElementNS("http://www.w3.org/2000/svg","animate");
-        animX.setAttribute("attributeName","cx");
-        animX.setAttribute("from", x0.toFixed(1));
-        animX.setAttribute("to", x1.toFixed(1));
-        animX.setAttribute("dur", w.dur + "s");
-        animX.setAttribute("begin", begin);
-        animX.setAttribute("repeatCount","indefinite");
-        const animO = document.createElementNS("http://www.w3.org/2000/svg","animate");
-        animO.setAttribute("attributeName","opacity");
-        animO.setAttribute("values", `0;${w.op};${w.op};0`);
-        animO.setAttribute("keyTimes","0;0.12;0.85;1");
-        animO.setAttribute("dur", w.dur + "s");
-        animO.setAttribute("begin", begin);
-        animO.setAttribute("repeatCount","indefinite");
-        circ.appendChild(animX);
-        circ.appendChild(animO);
-        g.appendChild(circ);
+        bubblesGroup.appendChild(circ);
+        // egyenletes fazis-elosztas, hogy folyamatosan erkezzenek
+        bubblePts.push({ el: circ, phase: i / w.n, y, w });
       }
     });
-    svg.appendChild(g);
+    svg.appendChild(bubblesGroup);
+    if(bubbleRAF==null) bubbleRAF = requestAnimationFrame(bubbleTick);
+  }
+  function bubbleTick(t){
+    if(!lastBubbleT) lastBubbleT = t;
+    const dt = Math.min(0.05, (t - lastBubbleT) / 1000); // masodperc, cap 50ms
+    lastBubbleT = t;
+    // sebesseg szorzo a ciklus frac alapjan: elejen lassu, vegen gyors (P 16:00)
+    const speedMul = 0.3 + currentFrac * 2.0;  // 0.3x .. 2.3x
+    for(const p of bubblePts){
+      p.phase += dt * p.w.base * speedMul;
+      if(p.phase >= 1) p.phase -= 1;            // vegtelelitve ujraindul
+      const e = p.phase * p.phase;              // gyorsulo mozgas (lassu elejen)
+      const cx = 28 + (408 - 28) * e;           // x0=28, x1=408 (plot szel)
+      p.el.setAttribute("cx", cx.toFixed(1));
+      // halvanyodas a szelen
+      let op = p.w.op;
+      if(p.phase < 0.10) op = p.w.op * (p.phase/0.10);
+      else if(p.phase > 0.88) op = p.w.op * ((1-p.phase)/0.12);
+      p.el.setAttribute("opacity", op.toFixed(2));
+    }
+    bubbleRAF = requestAnimationFrame(bubbleTick);
   }
 
 
