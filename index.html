@@ -444,9 +444,11 @@
 
     const rem = c.end - now;
     const rd = Math.max(0,Math.floor(rem/DAY_MS)), rh = Math.max(0,Math.floor((rem%DAY_MS)/3600000)), rm = Math.max(0,Math.floor((rem%3600000)/60000));
-    // ha <1 nap van hatra, ora/min perc formaban
+    // reset szoveg: utolso 1 oraban PERCBEN, <1 napban ora/percben, egyebkent nap/ora/perc
     const resetTxtEl = document.getElementById("resetTxt");
-    if(rd < 1){
+    if(rem < 3600000){
+      resetTxtEl.textContent = `Reset: ${rm}p múlva`;
+    } else if(rd < 1){
       resetTxtEl.textContent = `Reset: ${rh}ó ${rm}p múlva`;
     } else {
       resetTxtEl.textContent = `Reset: ${rd}n ${rh}ó ${rm}p`;
@@ -542,10 +544,12 @@
       else { tTxt.textContent=`Biztos: ${HF(projEnd)}%`; tTxt.style.color="var(--green)"; }
     }
 
-    // reset badge: ha <24 ora van hatra, ora/formaban
+    // reset badge: utolso 1 oraban PERCBEN, <24 oraban ora/formaban, utana nap
     const rb = document.getElementById("resetBadge");
     const msLeft = c.end - now;
-    if(msLeft < DAY_MS){
+    if(msLeft < 3600000){
+      rb.textContent = `${rm} perc múlva Reset!`;
+    } else if(msLeft < DAY_MS){
       rb.textContent = `${rh} óra múlva Reset!`;
     } else {
       const remDays = Math.ceil(msLeft/DAY_MS - 0.0001);
