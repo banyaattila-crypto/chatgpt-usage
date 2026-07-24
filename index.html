@@ -499,7 +499,6 @@
 
     drawChart(c, state.history);
     currentFrac = c.frac;            // buborek-sebesseg: ciklus elorehaladtaval gyorsul
-    currentDelta = (c.delta==null) ? 0 : c.delta;  // P5: valos vs terv elteres
     ensureBubbles(document.getElementById("chart"), 28, 408, 16, 194);
     renderHistory(c);
   }
@@ -673,24 +672,9 @@
   let bubbleRAF = null;
   let lastBubbleT = 0;
   let currentFrac = 0;       // a ciklus aktualis frag-je (render tolti fel)
-  let currentDelta = 0;      // valos - terv delta (render tolti fel, P5-hez)
   // y-kiterjedes a plot teruleten belul (y1=16 felso, y0=194 also)
   const B_Y_TOP = 22, B_Y_BOT = 188;
   function rnd(a,b){ return a + Math.random()*(b-a); }
-  // P5: delta (-15..+15) -> szininterpolacio: zold(takarekos) -> sarga(semleges) -> voros(tullepes)
-  function lerp(a,b,k){ return a + (b-a)*k; }
-  function deltaColor(d){
-    // zold: 52,211,153 | sarga: 255,200,87 | voros: 255,118,118
-    let r,g,b;
-    if(d < 0){
-      const k = Math.max(0, (d+15)/15);      // -15->0(zold), 0->1(sarga)
-      r = lerp(52,255,k); g = lerp(211,200,k); b = lerp(153,87,k);
-    } else {
-      const k = Math.min(1, d/15);            // 0->0(sarga), +15->1(voros)
-      r = lerp(255,255,k); g = lerp(200,118,k); b = lerp(87,118,k);
-    }
-    return `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
-  }
   function ensureBubbles(svg, x0, x1, y1, y0){
     if(!svg) return;
     bubblesGroup = svg.querySelector ? svg.querySelector("#bubbles") : null;
@@ -732,11 +716,8 @@
     const time = t / 1000;
     // sebesseg szorzo a ciklus frac alapjan: elejen lassu, vegen gyors (P 16:00)
     const speedMul = 0.3 + currentFrac * 2.0;  // 0.3x .. 2.3x
-    // P5: delta (valos - terv) hatasa: tullepes -> gyorsabb + voros, takarekossag -> lassabb + zold
-    const dClamp = Math.max(-15, Math.min(15, currentDelta)); // -15%..+15% tartomany
-    const deltaBoost = 1 + dClamp / 15 * 0.8;  // 0.2x (mínusz) .. 1.8x (plusz)
     for(const p of bubblePts){
-      p.phase += dt * p.w.base * speedMul * deltaBoost;
+      p.phase += dt * p.w.base * speedMul;
       if(p.phase >= 1) p.phase -= 1;            // vegtelelitve ujraindul
       const e = p.phase * p.phase;              // gyorsulo mozgas (lassu elejen)
       const cx = 28 + (408 - 28) * e;           // x0=28, x1=408 (plot szel)
@@ -745,9 +726,6 @@
       const cy = p.yBase + ampNow * Math.sin(time * p.freq + p.phaseY);
       p.el.setAttribute("cx", cx.toFixed(1));
       p.el.setAttribute("cy", Math.max(16, Math.min(194, cy)).toFixed(1));
-      // P5: szin a delta alapjan (interpolacio zold[52,211,153] -> sarga[255,200,87] -> voros[255,118,118])
-      const col = deltaColor(dClamp);
-      p.el.setAttribute("fill", col);
       // halvanyodas a szelen
       let op = p.w.op;
       if(p.phase < 0.10) op = p.w.op * (p.phase/0.10);
