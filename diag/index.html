@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head><meta charset="utf-8"><title>DIAG</title>
+<style>body{background:#0b0f1a;color:#ffc857;font:16px sans-serif;padding:20px;}</style>
+</head>
+<body>
+<div id="out">INDUL...</div>
+<script>
+  document.getElementById("out").textContent = "JS FUTOK " + new Date().toLocaleTimeString("hu-HU");
+  window.onerror = function(m){ document.getElementById("out").textContent = "HIBA: " + m; };
+</script>
+</body>
+</html>
