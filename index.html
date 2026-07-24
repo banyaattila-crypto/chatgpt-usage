@@ -642,6 +642,55 @@
     } catch(e) {
       console.error("drawChart render hiba:", e);
     }
+    // BALROL JOBBRA USZO KIS PONTOK (buborekok) - vegtelen ciklusban ataramlanak a grafikonon.
+    // SVG-bol inditott SMIL animacio (mukodik bongeszoben es PWA-bol is), nem kell JS tick.
+    drawBubbles(svg, x0, x1, y1, y0, c);
+  }
+
+  // Uszo pontok: tobb hullam, kulonbozo magassagban, kulonbozo sebesseggel.
+  // Minden pont bal szelrol (x0) indul, jobb szelre (x1) uszik, majd az animacio végtelenitve ujraindul.
+  function drawBubbles(svg, x0, x1, y1, y0, c){
+    if(!svg) return;
+    const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+    g.setAttribute("id","bubbles");
+    const W = x1 - x0;
+    // 3 hullam, mindegyik mas magassagon + sebessegen, hogy 'elerje' a hatast
+    const waves = [
+      { n: 5, yFrac: 0.78, r: 2.2, dur: 9,  op: 0.55, color: "#ffc857" }, // also sarga
+      { n: 4, yFrac: 0.52, r: 1.8, dur: 12, op: 0.45, color: "#34d399" }, // kozepe zold
+      { n: 6, yFrac: 0.30, r: 1.5, dur: 7.5, op: 0.40, color: "#7dd3fc" }, // felso kek
+    ];
+    waves.forEach(w=>{
+      const y = y1 + (y0 - y1) * w.yFrac;
+      for(let i=0;i<w.n;i++){
+        // faziseltolas: egyenletesen osztva a cikluson, hogy folyamatosan erkezzenek
+        const begin = `-${(w.dur * i / w.n).toFixed(2)}s`;
+        const circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
+        circ.setAttribute("r", w.r);
+        circ.setAttribute("cy", y.toFixed(1));
+        circ.setAttribute("fill", w.color);
+        circ.setAttribute("opacity", w.op);
+        // belso halovany glow
+        const animX = document.createElementNS("http://www.w3.org/2000/svg","animate");
+        animX.setAttribute("attributeName","cx");
+        animX.setAttribute("from", x0.toFixed(1));
+        animX.setAttribute("to", x1.toFixed(1));
+        animX.setAttribute("dur", w.dur + "s");
+        animX.setAttribute("begin", begin);
+        animX.setAttribute("repeatCount","indefinite");
+        const animO = document.createElementNS("http://www.w3.org/2000/svg","animate");
+        animO.setAttribute("attributeName","opacity");
+        animO.setAttribute("values", `0;${w.op};${w.op};0`);
+        animO.setAttribute("keyTimes","0;0.12;0.85;1");
+        animO.setAttribute("dur", w.dur + "s");
+        animO.setAttribute("begin", begin);
+        animO.setAttribute("repeatCount","indefinite");
+        circ.appendChild(animX);
+        circ.appendChild(animO);
+        g.appendChild(circ);
+      }
+    });
+    svg.appendChild(g);
   }
 
 
