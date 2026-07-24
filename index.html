@@ -231,6 +231,7 @@
 
 </head>
 <body>
+<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#3a0d0d;color:#ff9f9f;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #ff6b6b;"></div>
 <div class="aurora a1"></div>
 <div class="aurora a2"></div>
 <div class="aurora a3"></div>
@@ -317,6 +318,12 @@
 <script>
 (function(){
   "use strict";
+  // HIBA-KIJELZO: ha a script elszall, lathato a kepernyon (debug)
+  window.onerror = function(msg, src, line, col, err){
+    var p = document.getElementById("errPanel");
+    if(p){ p.style.display="block"; p.textContent = "JS HIBA: " + msg + " @ " + (src||"") + ":" + line + ":" + col + (err && err.stack ? "\n"+err.stack : ""); }
+    return false;
+  };
   const DAY_MS = 86400000;
   const STORE = "kvota_usage_v1";
   const HF = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
