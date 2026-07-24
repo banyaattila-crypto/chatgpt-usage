@@ -59,7 +59,8 @@ const sandbox = {
   requestAnimationFrame: (cb) => { try { cb(performance.now()); } catch(e){} return 1; },
   Notification: undefined,
   navigator: {},
-  window: {},
+  window: { addEventListener: () => {} },
+  addEventListener: () => {},
   fetch: () => Promise.resolve({ ok: true }),
 };
 sandbox.window = sandbox;

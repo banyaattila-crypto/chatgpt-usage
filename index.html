@@ -324,6 +324,11 @@
     if(p){ p.style.display="block"; p.textContent = "JS HIBA: " + msg + " @ " + (src||"") + ":" + line + ":" + col + (err && err.stack ? "\n"+err.stack : ""); }
     return false;
   };
+  window.addEventListener("unhandledrejection", function(e){
+    var p = document.getElementById("errPanel");
+    var r = e && e.reason ? (e.reason.stack || e.reason.message || String(e.reason)) : "ismeretlen promise hiba";
+    if(p){ p.style.display="block"; p.textContent = "PROMISE HIBA: " + r; }
+  });
   const DAY_MS = 86400000;
   const STORE = "kvota_usage_v1";
   const HF = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -378,12 +383,11 @@
   function pullBackup(){
     try {
       fetch(BACKUP_URL.replace("/save","/load"), { method:"GET" })
-        .then(r=>r.json())
+        .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
         .then(j=>{
           if(!j || !j.ok || !j.data) return;
           const remote = j.data;
           const local = JSON.parse(localStorage.getItem(STORE) || "{}");
-          // ujabb, ha tobb history bejegyzes VAGY nagyobb realPct
           const rc = Object.keys(remote.history||{}).length;
           const lc = Object.keys(local.history||{}).length;
           const isNewer = rc > lc || (rc===lc && (remote.realPct||0) > (local.realPct||0));
@@ -394,8 +398,8 @@
             console.log("Auto-pull: ujabb adat betoltve a Drive-rol");
           }
         })
-        .catch(()=>{});
-    } catch(e){}
+        .catch(e=>console.warn("pullBackup sikertelen (tunnel lehet leallt):", e.message));
+    } catch(e){ console.warn("pullBackup hiba:", e); }
   }
   const THEMES=["glass","dark","light"];
   const THEME_ICON={glass:"◐",dark:"●",light:"☀"};

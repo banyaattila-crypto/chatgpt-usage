@@ -5,6 +5,6 @@
   "framework": null,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!sw.js|manifest.webmanifest|icon.svg|test.html|diag).*)", "destination": "/index.html" }
   ]
 }
