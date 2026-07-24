@@ -34,6 +34,17 @@ const server = http.createServer((req, res) => {
     });
   } else if (req.method === "GET" && req.url === "/health") {
     res.writeHead(200); res.end("ok");
+  } else if (req.method === "GET" && req.url === "/load") {
+    try {
+      const out = execFileSync("rclone", ["cat", REMOTE], { timeout: 30000, encoding: "utf8" });
+      const obj = JSON.parse(out);
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: true, ts: Date.now(), data: obj }));
+      console.log("Backup betoltve <-", REMOTE);
+    } catch (e) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: false, err: String(e.message || e) }));
+    }
   } else {
     res.writeHead(404); res.end("not found");
   }

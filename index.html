@@ -218,7 +218,17 @@
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
     transition:left .6s ease;}
   .trendscale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;font-weight:600;}
-</style>
+  /* 3. frissites sav (uj verzio) */
+  #updateBar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:center;gap:14px;
+    background:linear-gradient(90deg,#1a2238,#243150);border-top:1px solid rgba(255,200,87,.4);
+    padding:10px 16px;font-size:13px;color:#ffc857;font-weight:700;backdrop-filter:blur(8px);}
+  #updateBar button{background:#ffc857;color:#0b0f1a;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
+  /* 4. reset-pillanat animacio (uj ciklus) */
+  @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(52,211,153,.0);}30%{box-shadow:0 0 0 6px rgba(52,211,153,.5);}100%{box-shadow:0 0 0 0 rgba(52,211,153,0);}}
+  .reset-flash{animation:resetFlash 1.6s ease-out 1;}
+  @keyframes resetPop{0%{transform:scale(1);}40%{transform:scale(1.06);}100%{transform:scale(1);}}
+  .reset-pop{animation:resetPop .9s cubic-bezier(.34,1.56,.64,1) 1;}
+
 </head>
 <body>
 <div class="aurora a1"></div>
@@ -356,6 +366,29 @@
         .catch(()=>{})           // silent: ha nincs tunnel, nem dob hibat
         .finally(()=>{ setTimeout(()=>{ backupBusy=false; }, 1500); });
     } catch(e){ backupBusy = false; }
+  }
+  // P1-auto-pull: oldal betoltesekor lehuzza a Drive-rol, ha ujabb a remote
+  function pullBackup(){
+    try {
+      fetch(BACKUP_URL.replace("/save","/load"), { method:"GET" })
+        .then(r=>r.json())
+        .then(j=>{
+          if(!j || !j.ok || !j.data) return;
+          const remote = j.data;
+          const local = JSON.parse(localStorage.getItem(STORE) || "{}");
+          // ujabb, ha tobb history bejegyzes VAGY nagyobb realPct
+          const rc = Object.keys(remote.history||{}).length;
+          const lc = Object.keys(local.history||{}).length;
+          const isNewer = rc > lc || (rc===lc && (remote.realPct||0) > (local.realPct||0));
+          if(isNewer){
+            localStorage.setItem(STORE, JSON.stringify(remote));
+            state = load();
+            render();
+            console.log("Auto-pull: ujabb adat betoltve a Drive-rol");
+          }
+        })
+        .catch(()=>{});
+    } catch(e){}
   }
   const THEMES=["glass","dark","light"];
   const THEME_ICON={glass:"◐",dark:"●",light:"☀"};
@@ -512,6 +545,13 @@
     currentFrac = c.frac;            // buborek-sebesseg: ciklus elorehaladtaval gyorsul
     ensureBubbles(document.getElementById("chart"), 28, 408, 16, 194);
     renderHistory(c);
+
+    // 4. pont: reset-pillanat animacio (uj ciklus kezdodott)
+    if(lastStart !== null && c.start.getTime() !== lastStart){
+      const card = document.querySelector(".card");
+      if(card){ card.classList.remove("reset-pop"); void card.offsetWidth; card.classList.add("reset-pop"); }
+    }
+    lastStart = c.start.getTime();
   }
 
   function renderHistory(c){
@@ -683,6 +723,7 @@
   let bubbleRAF = null;
   let lastBubbleT = 0;
   let currentFrac = 0;       // a ciklus aktualis frag-je (render tolti fel)
+  let lastStart = null;      // 4. pont: az elozo render ciklus-kezdete (reset erzekeles)
   // y-kiterjedes a plot teruleten belul (y1=16 felso, y0=194 also)
   const B_Y_TOP = 22, B_Y_BOT = 188;
   function rnd(a,b){ return a + Math.random()*(b-a); }
@@ -870,11 +911,48 @@
     });
   }
 
-  // PWA: service worker regisztralasa (offline + telepitheto)
+  // PWA: service worker regisztralasa + uj verzio kezelese (3. pont)
   if("serviceWorker" in navigator){
-    window.addEventListener("load",()=>{
-      navigator.serviceWorker.register("/sw.js").catch(e=>console.warn("SW reg hiba:",e));
+    window.addEventListener("load", ()=>{
+      navigator.serviceWorker.register("/sw.js").then(reg=>{
+        // uj SW talalatakor: ne aktivajuk azonnal, csak jelezzuk
+        reg.addEventListener("updatefound", ()=>{
+          const nw = reg.installing;
+          if(!nw) return;
+          nw.addEventListener("statechange", ()=>{
+            if(nw.state === "installed" && navigator.serviceWorker.controller){
+              // uj verzio keszen all -> reload gomb
+              showUpdateBar();
+            }
+          });
+        });
+      }).catch(e=>console.warn("SW reg hiba:",e));
+      // controllerchange -> auto reload az uj verziohoz
+      navigator.serviceWorker.addEventListener("controllerchange", ()=>{ window.location.reload(); });
+      // auto-pull a Drive-rol betolteskor (1. pont)
+      pullBackup();
     });
+  } else {
+    pullBackup(); // ha nincs SW tamogatas, akkor is pull
+  }
+
+  // 3. frissites sav (uj verzio elerheto)
+  function showUpdateBar(){
+    let bar = document.getElementById("updateBar");
+    if(bar) return;
+    bar = document.createElement("div");
+    bar.id = "updateBar";
+    bar.innerHTML = `<span>Új verzió elérhető</span><button id="updateBtn">Frissítés</button>`;
+    document.body.appendChild(bar);
+    document.getElementById("updateBtn").addEventListener("click", ()=>{
+      const sw = navigator.serviceWorker;
+      if(sw && sw.waiting){ sw.waiting.postMessage("skipWaiting"); }
+      else { window.location.reload(); }
+    });
+  }
+  // SW uzenet: skipWaiting -> controllerchange -> reload
+  if("serviceWorker" in navigator){
+    navigator.serviceWorker.addEventListener("message", (e)=>{ if(e.data==="skipWaiting") window.location.reload(); });
   }
 })();
 </script>
