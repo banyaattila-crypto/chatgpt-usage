@@ -835,6 +835,7 @@
   render();
   try { buildAnchorBts(); } catch(e) { console.error("anchorBts hiba:", e); }
   document.addEventListener("visibilitychange",()=>{ if(!document.hidden) render(); });
+  pullBackup();  // 1. pont: auto-pull a Drive-rol betolteskor (SW nelkul is)
 
   // ERTESITES gomb: engedely kerese + mentes
   const notifBtn=document.getElementById("notifBtn");
@@ -911,49 +912,13 @@
     });
   }
 
-  // PWA: service worker regisztralasa + uj verzio kezelese (3. pont)
+  // PWA: service worker IDEIGLENESEN KI / SW cache miatt nem latszott az uj verzio.
+  // Ha vissza kell kapcsolni: egy jol mukodo cache-bustingos sw.js kell.
+  /*
   if("serviceWorker" in navigator){
-    window.addEventListener("load", ()=>{
-      navigator.serviceWorker.register("/sw.js").then(reg=>{
-        // uj SW talalatakor: ne aktivajuk azonnal, csak jelezzuk
-        reg.addEventListener("updatefound", ()=>{
-          const nw = reg.installing;
-          if(!nw) return;
-          nw.addEventListener("statechange", ()=>{
-            if(nw.state === "installed" && navigator.serviceWorker.controller){
-              // uj verzio keszen all -> reload gomb
-              showUpdateBar();
-            }
-          });
-        });
-      }).catch(e=>console.warn("SW reg hiba:",e));
-      // controllerchange -> auto reload az uj verziohoz
-      navigator.serviceWorker.addEventListener("controllerchange", ()=>{ window.location.reload(); });
-      // auto-pull a Drive-rol betolteskor (1. pont)
-      pullBackup();
-    });
-  } else {
-    pullBackup(); // ha nincs SW tamogatas, akkor is pull
+    ...
   }
-
-  // 3. frissites sav (uj verzio elerheto)
-  function showUpdateBar(){
-    let bar = document.getElementById("updateBar");
-    if(bar) return;
-    bar = document.createElement("div");
-    bar.id = "updateBar";
-    bar.innerHTML = `<span>Új verzió elérhető</span><button id="updateBtn">Frissítés</button>`;
-    document.body.appendChild(bar);
-    document.getElementById("updateBtn").addEventListener("click", ()=>{
-      const sw = navigator.serviceWorker;
-      if(sw && sw.waiting){ sw.waiting.postMessage("skipWaiting"); }
-      else { window.location.reload(); }
-    });
-  }
-  // SW uzenet: skipWaiting -> controllerchange -> reload
-  if("serviceWorker" in navigator){
-    navigator.serviceWorker.addEventListener("message", (e)=>{ if(e.data==="skipWaiting") window.location.reload(); });
-  }
+  */
 })();
 </script>
 </body>
