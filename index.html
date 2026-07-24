@@ -400,7 +400,13 @@
 
     const rem = c.end - now;
     const rd = Math.max(0,Math.floor(rem/DAY_MS)), rh = Math.max(0,Math.floor((rem%DAY_MS)/3600000)), rm = Math.max(0,Math.floor((rem%3600000)/60000));
-    document.getElementById("resetTxt").textContent = `Reset: ${rd}n ${rh}ó ${rm}p`;
+    // ha <1 nap van hatra, ora/min perc formaban
+    const resetTxtEl = document.getElementById("resetTxt");
+    if(rd < 1){
+      resetTxtEl.textContent = `Reset: ${rh}ó ${rm}p múlva`;
+    } else {
+      resetTxtEl.textContent = `Reset: ${rd}n ${rh}ó ${rm}p`;
+    }
     // main big = időarányos (ciklus eleje óta eltelt %)
     const shown = c.frac * 100;
     animateBig(shown);
@@ -492,10 +498,14 @@
       else { tTxt.textContent=`Biztos: ${HF(projEnd)}%`; tTxt.style.color="var(--green)"; }
     }
 
-    // reset badge: hátralévő napok
+    // reset badge: az utolso napon ora/formaban
     const rb = document.getElementById("resetBadge");
     const remDays = Math.max(0, Math.ceil((c.end-now)/DAY_MS - 0.0001));
-    rb.textContent = `${remDays} nap Reset!`;
+    if(remDays < 1){
+      rb.textContent = `${rh} óra múlva Reset!`;
+    } else {
+      rb.textContent = `${remDays} nap Reset!`;
+    }
 
     drawChart(c, state.history);
     currentFrac = c.frac;            // buborek-sebesseg: ciklus elorehaladtaval gyorsul
