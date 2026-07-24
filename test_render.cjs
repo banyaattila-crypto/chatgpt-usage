@@ -60,6 +60,7 @@ const sandbox = {
   Notification: undefined,
   navigator: {},
   window: {},
+  fetch: () => Promise.resolve({ ok: true }),
 };
 sandbox.window = sandbox;
 
