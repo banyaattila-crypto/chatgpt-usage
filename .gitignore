@@ -2,4 +2,9 @@
 .env*
 cf.log
 preview.svg
+preview_new.svg
+preview_new.png
+preview_bubbles.gif
+preview_gen.cjs
+preview_gif.cjs
 _testpush.sh
