@@ -649,17 +649,17 @@
   // ---- BALROL JOBBRA USZO PONTOK (buborekok) ----
   // JavaScript rAF animacio: a sebesseg a ciklus elorehaladtaval (frac) gyorsul,
   // igy a P 16:00 (vege) fele egyre gyorsabban szaladnak at a pontok.
+  // A pontok entropikusan szorodnak: nem fix vonalon, hanem veletlen y-on + finom
+  // hullamzas (amp/freq/phaseY), mint az igazi buborekok a folyadekban.
   // A pozicio gyorsulo: cx = x0 + (x1-x0)*phase^2  (phase 0..1 a pont sajat utjan).
   let bubblesGroup = null;
-  let bubblePts = [];        // {phase, wave}
+  let bubblePts = [];        // {phase, yBase, amp, freq, phaseY, w}
   let bubbleRAF = null;
   let lastBubbleT = 0;
   let currentFrac = 0;       // a ciklus aktualis frag-je (render tolti fel)
-  const B_WAVES = [
-    { n: 10, yFrac: 0.80, r: 2.2, base: 0.085, op: 0.55, color: "#ffc857" }, // also sarga
-    { n: 8,  yFrac: 0.54, r: 1.8, base: 0.065, op: 0.45, color: "#34d399" }, // kozepe zold
-    { n: 12, yFrac: 0.30, r: 1.5, base: 0.105, op: 0.40, color: "#7dd3fc" }, // felso kek
-  ];
+  // y-kiterjedes a plot teruleten belul (y1=16 felso, y0=194 also)
+  const B_Y_TOP = 22, B_Y_BOT = 188;
+  function rnd(a,b){ return a + Math.random()*(b-a); }
   function ensureBubbles(svg, x0, x1, y1, y0){
     if(!svg) return;
     bubblesGroup = svg.querySelector ? svg.querySelector("#bubbles") : null;
@@ -667,17 +667,28 @@
     bubblesGroup = document.createElementNS("http://www.w3.org/2000/svg","g");
     bubblesGroup.setAttribute("id","bubbles");
     bubblePts = [];
-    B_WAVES.forEach(w=>{
-      const y = y1 + (y0 - y1) * w.yFrac;
+    const COLORS = [
+      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#ffc857" },
+      { n: 8,  r: 1.8, base: 0.065, op: 0.45, color: "#34d399" },
+      { n: 12, r: 1.5, base: 0.105, op: 0.40, color: "#7dd3fc" },
+    ];
+    COLORS.forEach(w=>{
       for(let i=0;i<w.n;i++){
         const circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
         circ.setAttribute("r", w.r);
-        circ.setAttribute("cy", y.toFixed(1));
         circ.setAttribute("fill", w.color);
         circ.setAttribute("opacity", w.op);
         bubblesGroup.appendChild(circ);
-        // egyenletes fazis-elosztas, hogy folyamatosan erkezzenek
-        bubblePts.push({ el: circ, phase: i / w.n, y, w });
+        // ad-hoc entropia: veletlen y + sajat hullamzas
+        bubblePts.push({
+          el: circ,
+          phase: i / w.n,
+          yBase: rnd(B_Y_TOP, B_Y_BOT),
+          amp: rnd(3, 11),
+          freq: rnd(0.6, 2.2),
+          phaseY: rnd(0, Math.PI*2),
+          w,
+        });
       }
     });
     svg.appendChild(bubblesGroup);
@@ -687,6 +698,7 @@
     if(!lastBubbleT) lastBubbleT = t;
     const dt = Math.min(0.05, (t - lastBubbleT) / 1000); // masodperc, cap 50ms
     lastBubbleT = t;
+    const time = t / 1000;
     // sebesseg szorzo a ciklus frac alapjan: elejen lassu, vegen gyors (P 16:00)
     const speedMul = 0.3 + currentFrac * 2.0;  // 0.3x .. 2.3x
     for(const p of bubblePts){
@@ -694,7 +706,11 @@
       if(p.phase >= 1) p.phase -= 1;            // vegtelelitve ujraindul
       const e = p.phase * p.phase;              // gyorsulo mozgas (lassu elejen)
       const cx = 28 + (408 - 28) * e;           // x0=28, x1=408 (plot szel)
+      // entropikus y: alap + finom hullamas, ami a ciklussal is gyorsul (nagyobb amp a vegen)
+      const ampNow = p.amp * (0.6 + currentFrac * 0.9);
+      const cy = p.yBase + ampNow * Math.sin(time * p.freq + p.phaseY);
       p.el.setAttribute("cx", cx.toFixed(1));
+      p.el.setAttribute("cy", Math.max(16, Math.min(194, cy)).toFixed(1));
       // halvanyodas a szelen
       let op = p.w.op;
       if(p.phase < 0.10) op = p.w.op * (p.phase/0.10);

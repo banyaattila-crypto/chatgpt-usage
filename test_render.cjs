@@ -83,7 +83,7 @@ const bigPct = getEl("bigPct");
 const bubblesGroup = chart._children.find(ch => ch.attributes && ch.attributes.id === "bubbles");
 const bubbleCircles = bubblesGroup ? bubblesGroup._children : [];
 // after one rAF tick, circles should have a cx attribute set
-const movedCircles = bubbleCircles.filter(c => c.attributes && typeof c.attributes.cx !== "undefined");
+const movedCircles = bubbleCircles.filter(c => c.attributes && typeof c.attributes.cx !== "undefined" && typeof c.attributes.cy !== "undefined");
 
 console.log("=== RESULTS ===");
 console.log("no JS error:         ", threw === null);
