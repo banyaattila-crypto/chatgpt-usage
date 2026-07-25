@@ -26,10 +26,10 @@
     --glass-hi:rgba(255,235,215,.5);
     --bar-done:rgba(212,160,90,.22); --bar-today:#d4a05a; --bar-future:rgba(255,240,225,.05);
     --bg-grad:
-      radial-gradient(900px 520px at 82% -10%, rgba(120,80,40,.30) 0%, transparent 58%),
-      radial-gradient(720px 480px at 8% 12%,   rgba(160,29,58,.16) 0%, transparent 56%),
-      radial-gradient(860px 640px at 90% 104%, rgba(70,45,25,.40) 0%, transparent 60%),
-      linear-gradient(160deg,#0a0604 0%,#160d08 55%,#0a0604 100%);
+      radial-gradient(900px 540px at 80% -12%, rgba(212,160,90,.42) 0%, transparent 56%),
+      radial-gradient(760px 520px at 6% 10%,   rgba(160,29,58,.22) 0%, transparent 54%),
+      radial-gradient(880px 680px at 92% 106%, rgba(90,55,28,.55) 0%, transparent 60%),
+      linear-gradient(160deg,#060302 0%,#120a06 55%,#060302 100%);
   }
   /* TEMA: sotet */
   html[data-theme="dark"]{
@@ -93,11 +93,11 @@
   .tagrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
   .card{
     border-radius:22px;padding:14px;margin-bottom:16px;overflow:hidden;position:relative;
-    background:var(--glass);
+    background:linear-gradient(160deg, rgba(255,240,225,.10) 0%, var(--glass) 40%);
     border:1px solid var(--glass-border);
-    backdrop-filter:blur(22px) saturate(140%);
-    -webkit-backdrop-filter:blur(22px) saturate(140%);
-    box-shadow:0 12px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.10);
+    backdrop-filter:blur(22px) saturate(150%);
+    -webkit-backdrop-filter:blur(22px) saturate(150%);
+    box-shadow:0 16px 48px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,235,215,.18), inset 0 0 24px rgba(212,160,90,.04);
   }
   /* felső fényes szegély (highlight) az üvegen */
   .card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;
@@ -703,7 +703,7 @@
   function drawChart(c, history){
     const svg=document.getElementById("chart");
     if(!svg) return;
-    const W=420,H=220,padL=28,padR=12,padT=16,padB=26;
+    const W=420,H=240,padL=42,padR=14,padT=18,padB=34;
     const x0=padL,x1=W-padR,y0=H-padB,y1=padT;
     const X=i=>x0+(x1-x0)*(i/7);          // 8 pont (0..7)
     const Y=v=>y0+(y1-y0)*(v/100);
@@ -731,14 +731,14 @@
     // grid (fintebb, halványabb)
     [0,25,50,75,100].forEach(v=>{
       s+=`<line x1="${x0}" y1="${Y(v)}" x2="${x1}" y2="${Y(v)}" stroke="#221510" stroke-width="1"/>`;
-      s+=`<text x="${x0-8}" y="${Y(v)+3}" fill="#6b7488" font-size="9" text-anchor="end">${v}%</text>`;
+      s+=`<text x="${x0-10}" y="${Y(v)+5}" fill="#8a7a6a" font-size="14" font-weight="700" text-anchor="end">${v}%</text>`;
     });
     // X labels: i. X-pont = a (i+1). napi szegmentum vege (aw+1+i)%7, illeszkedik a napi racshoz
     const XL=[];
     for(let i=0;i<8;i++) XL.push(WDS[(c.aw+i)%7]);
     for(let i=0;i<8;i++){
       const anc = (i===7) ? "end" : "middle";
-      s += `<text x="${X(i)}" y="${H-8}" fill="#6b7488" font-size="9" text-anchor="${anc}">${XL[i]}</text>`;
+      s += `<text x="${X(i)}" y="${H-12}" fill="#8a7a6a" font-size="12" font-weight="700" text-anchor="${anc}">${XL[i]}</text>`;
     }
     // planned line coords (8 pont): 100%-ról (bal felső) 0%-ra (jobb alsó) - maradék
     let pl="";
@@ -749,8 +749,8 @@
     s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#a01d3a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
       const v=100 - i*100/7;
-      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#a01d3a" stroke="#f3e9e2" stroke-width="1.5"/>`;
-      s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#a01d3a" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="6" fill="#a01d3a" stroke="#f3e9e2" stroke-width="1.5"/>`;
+      s+=`<text x="${X(i)}" y="${Y(v)-14}" fill="#e0b070" font-size="13" font-weight="800" text-anchor="middle" opacity=".95">${HF(v)}</text>`;
     }
     // MAI AKTUALIS pont: maradek = 100 - frac*100 helyen
     if(c && typeof c.frac==="number"){
