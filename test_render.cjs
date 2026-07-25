@@ -41,6 +41,7 @@ const document = {
   createElement: () => makeEl("dyn"),
   createElementNS: () => makeEl("dynNS"),
   querySelector: () => null,
+  querySelectorAll: () => [],
   addEventListener: () => {},
   hidden: false,
   documentElement: makeEl("html"),
@@ -59,7 +60,7 @@ const sandbox = {
   requestAnimationFrame: (cb) => { try { cb(performance.now()); } catch(e){} return 1; },
   Notification: undefined,
   navigator: {},
-  window: { addEventListener: () => {} },
+  window: { addEventListener: () => {}, querySelectorAll: () => [] },
   addEventListener: () => {},
   fetch: () => Promise.resolve({ ok: true }),
 };

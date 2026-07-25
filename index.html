@@ -228,6 +228,28 @@
   .reset-flash{animation:resetFlash 1.6s ease-out 1;}
   @keyframes resetPop{0%{transform:scale(1);}40%{transform:scale(1.06);}100%{transform:scale(1);}}
   .reset-pop{animation:resetPop .9s cubic-bezier(.34,1.56,.64,1) 1;}
+  /* TOPNAV menü + tab-ok */
+  .topnav{display:flex;gap:6px;max-width:480px;margin:14px auto 0;padding:0 14px;}
+  .navbtn{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--muted);font:600 13px/1 sans-serif;padding:10px 4px;border-radius:10px;cursor:pointer;transition:.15s;}
+  .navbtn.active{background:rgba(255,200,87,.18);border-color:rgba(255,200,87,.5);color:#ffc857;}
+  .tab{display:none;}
+  .tab.active{display:block;}
+  .app h2{font-size:20px;margin:6px 0 14px;font-weight:800;}
+  /* HEATMAP */
+  .heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;max-width:480px;margin:0 auto;}
+  .hm-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 10px/1 sans-serif;color:rgba(255,255,255,.85);position:relative;}
+  .hm-cell .dlab{opacity:.85;}
+  .hm.over{background:rgba(255,80,80,.85);}
+  .hm.warn{background:rgba(255,200,87,.8);}
+  .hm.under{background:rgba(52,211,153,.7);}
+  .hm.none{background:rgba(255,255,255,.07);color:var(--muted);}
+  .heatmap-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:480px;margin:0 auto 14px;font:12px sans-serif;color:var(--muted);}
+  .heatmap-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px;}
+  .hm-hint{max-width:480px;margin:14px auto 0;font:12px sans-serif;color:var(--muted);text-align:center;}
+  .card .row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);}
+  .card .row:last-child{border-bottom:none;}
+  .muted{color:var(--muted);}
+  .editwrap input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:6px 8px;font:600 14px sans-serif;}
 </style>
 </head>
 <body>
@@ -235,6 +257,13 @@
 <div class="aurora a1"></div>
 <div class="aurora a2"></div>
 <div class="aurora a3"></div>
+<div class="topnav">
+  <button class="navbtn active" data-tab="overview">Áttekintés</button>
+  <button class="navbtn" data-tab="calendar">Naptár</button>
+  <button class="navbtn" data-tab="settings">Beállítások</button>
+</div>
+
+<section id="tab-overview" class="tab active">
 <div class="app">
   <div class="statusbar">
     <span id="clock">--:--</span>
@@ -314,6 +343,39 @@
     <input id="importFile" type="file" accept="application/json" hidden>
   </div>
 </div>
+</section>
+
+<section id="tab-calendar" class="tab">
+  <div class="app">
+    <div class="eyebrow">ÉGETT NAPOK · NAPTÁR</div>
+    <h2>Utolsó 5 hét</h2>
+    <div class="heatmap-legend">
+      <span><i class="hm over"></i> túllépés</span>
+      <span><i class="hm warn"></i> kritikus</span>
+      <span><i class="hm under"></i> takarékos</span>
+      <span><i class="hm none"></i> nincs adat</span>
+    </div>
+    <div id="heatmap" class="heatmap"></div>
+    <p class="hm-hint">A színek a napi valós fogyasztást hasonlítják az aznapi tervhez (100/7 ≈ 14,3%).</p>
+  </div>
+</section>
+
+<section id="tab-settings" class="tab">
+  <div class="app">
+    <div class="eyebrow">BEÁLLÍTÁSOK</div>
+    <h2>Beállítások</h2>
+    <div class="card">
+      <div class="row"><span>Riasztási küszöb</span>
+        <span class="editwrap"><input id="warnInput" type="number" min="50" max="100" step="1" style="width:64px">%</span>
+      </div>
+      <div class="row"><span>Utolsó mentés / szinkron</span><span id="syncStat" class="muted">—</span></div>
+      <div class="row"><span>Adat mentése (JSON)</span>
+        <span><button id="exportBtn2" class="bkbtn">⬇ Export</button> <button id="importBtn2" class="bkbtn">⬆ Import</button></span>
+      </div>
+      <input id="importFile2" type="file" accept="application/json" hidden>
+    </div>
+  </div>
+</section>
 
 <script>
 (function(){
@@ -538,9 +600,10 @@
     const tTxt=document.getElementById("trendTxt");
     const pct=Math.max(0,Math.min(120,projEnd));
     if(tMark) tMark.style.left=(pct/120*100).toFixed(1)+"%";
+    const warnPct = (state.warnPct==null)? 85 : state.warnPct;
     if(tTxt){
       if(projEnd>100){ tTxt.textContent=`Veszély: ${HF(projEnd)}% (túllépés)`; tTxt.style.color="var(--red)"; notifyWarn(projEnd, c.start); }
-      else if(projEnd>85){ tTxt.textContent=`Határon: ${HF(projEnd)}%`; tTxt.style.color="var(--gold)"; }
+      else if(projEnd>warnPct){ tTxt.textContent=`Határon: ${HF(projEnd)}% (${warnPct}% felett)`; tTxt.style.color="var(--gold)"; }
       else { tTxt.textContent=`Biztos: ${HF(projEnd)}%`; tTxt.style.color="var(--green)"; }
     }
 
@@ -927,13 +990,149 @@
     });
   }
 
-  // PWA: service worker IDEIGLENESEN KI / SW cache miatt nem latszott az uj verzio.
-  // Ha vissza kell kapcsolni: egy jol mukodo cache-bustingos sw.js kell.
-  /*
-  if("serviceWorker" in navigator){
-    ...
+  // === 6. NAPTAR (heatmap) ===
+  function renderHeatmap(){
+    const hm = document.getElementById("heatmap");
+    if(!hm) return;
+    hm.innerHTML = "";
+    const now = new Date();
+    // utolso 5 het: a hetfoi anchorhoz igazitva (anchor = ciklus eleje)
+    const aw = state.anchor;
+    // 35 nap vissza, a mai naptol
+    const days = 35;
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (days-1));
+    for(let i=0;i<days;i++){
+      const d = new Date(start.getFullYear(), start.getMonth(), start.getDate()+i);
+      const key = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+      const cell = document.createElement("div");
+      cell.className = "hm-cell";
+      const val = state.history ? state.history[key] : null;
+      let cls = "none";
+      let label = "";
+      if(val != null){
+        // aznapi terv: a cikluson beluli pozicio alapjan
+        const c = compute(d);
+        const vTxt = (c.dayIndex+1)*100/7;
+        if(val > vTxt + 0.01) cls = "over";
+        else if(val >= vTxt - (100/7)*0.1) cls = "warn";
+        else cls = "under";
+        label = HF(val)+"%";
+        cell.title = key + ": " + HF(val) + "% (terv " + HF(vTxt) + "%)";
+      } else {
+        label = WDS[(d.getDay()+6)%7] || "";
+        cell.title = key + " — nincs adat";
+      }
+      cell.classList.add("hm", cls);
+      const lab = document.createElement("span");
+      lab.className = "dlab";
+      lab.textContent = label;
+      cell.appendChild(lab);
+      hm.appendChild(cell);
+    }
   }
-  */
+
+  // === TOPNAV tab valtas ===
+  const navBtns = document.querySelectorAll(".navbtn");
+  navBtns.forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const tab = btn.getAttribute("data-tab");
+      navBtns.forEach(b=>b.classList.toggle("active", b===btn));
+      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+      const sec = document.getElementById("tab-"+tab);
+      if(sec) sec.classList.add("active");
+      if(tab==="calendar") renderHeatmap();
+      if(tab==="settings") refreshSettings();
+    });
+  });
+
+  // === SETTINGS ===
+  const WARN_KEY = "kvota_warn";
+  function refreshSettings(){
+    const wi = document.getElementById("warnInput");
+    if(wi){
+      const cur = localStorage.getItem(WARN_KEY);
+      wi.value = (cur==null)? 85 : cur;
+    }
+    const ss = document.getElementById("syncStat");
+    if(ss){
+      const ts = localStorage.getItem("kvota_last_sync");
+      if(ts){
+        const diff = Math.round((Date.now()-parseInt(ts,10))/60000);
+        ss.textContent = diff<60 ? `${diff} perce` : `${Math.round(diff/60)} órája`;
+      } else ss.textContent = "még sosem";
+    }
+  }
+  const warnInput = document.getElementById("warnInput");
+  if(warnInput){
+    warnInput.value = (localStorage.getItem(WARN_KEY)==null)? 85 : localStorage.getItem(WARN_KEY);
+    warnInput.addEventListener("change",()=>{
+      let v = parseInt(warnInput.value,10);
+      if(isNaN(v)) v=85;
+      v = Math.max(50, Math.min(100, v));
+      localStorage.setItem(WARN_KEY, v);
+      state.warnPct = v;
+      render();
+    });
+  }
+  // masodik export/import a settings-ben
+  const exportBtn2 = document.getElementById("exportBtn2");
+  const importBtn2 = document.getElementById("importBtn2");
+  const importFile2 = document.getElementById("importFile2");
+  if(exportBtn2){
+    exportBtn2.addEventListener("click",()=>{
+      const data=localStorage.getItem(STORE)||"{}";
+      const blob=new Blob([data],{type:"application/json"});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url; a.download=`claude-usage-backup-${new Date().toISOString().slice(0,10)}.json`;
+      a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+    });
+  }
+  if(importBtn2 && importFile2){
+    importBtn2.addEventListener("click",()=>importFile2.click());
+    importFile2.addEventListener("change",e=>{
+      const f=e.target.files[0]; if(!f) return;
+      const r=new FileReader();
+      r.onload=()=>{
+        try{
+          const obj=JSON.parse(r.result);
+          if(obj && typeof obj==="object"){
+            localStorage.setItem(STORE, JSON.stringify(obj));
+            syncBackup();
+            state=load(); render(); renderHeatmap();
+            alert("Visszaállítva ✔");
+          }
+        }catch(err){ alert("Hibás JSON fájl."); }
+      };
+      r.readAsText(f);
+      e.target.value="";
+    });
+  }
+
+  // syncBackup-ba beirjuk az utolso mentes idopontjat
+  const _origSync = syncBackup;
+  syncBackup = function(){
+    localStorage.setItem("kvota_last_sync", String(Date.now()));
+    return _origSync.apply(this, arguments);
+  };
+
+  // === 4. PWA: service worker visszakapcsolva (app-shell cache) ===
+  if("serviceWorker" in navigator){
+    window.addEventListener("load", ()=>{
+      navigator.serviceWorker.register("sw.js").then(reg=>{
+        if(reg.waiting) showUpdateBar();
+        reg.addEventListener("updatefound", ()=>{
+          const installing = reg.installing;
+          if(installing) installing.addEventListener("statechange", ()=>{
+            if(installing.state==="installed" && navigator.serviceWorker.controller) showUpdateBar();
+          });
+        });
+      }).catch(()=>{});
+    });
+  }
+
+  // render meghivasa a warnPct betoltesere
+  state.warnPct = (localStorage.getItem(WARN_KEY)==null)? 85 : parseInt(localStorage.getItem(WARN_KEY),10);
 })();
 </script>
 </body>
