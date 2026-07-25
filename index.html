@@ -606,7 +606,7 @@
     document.getElementById("c2").textContent = c2v+"%";
     const c3=document.getElementById("c3"); const c3t=document.getElementById("c3t");
     c3.textContent = HF(projEnd)+"%";
-    c3.style.color = (projEnd>0)? "var(--green)" : "var(--red)";   // 0 ala esik = elfogyott
+    c3.style.color = (projEnd>0)? "var(--good)" : "var(--red)";   // 0 ala esik = elfogyott
     c3t.textContent = "Várható maradék";
     // trend-előrejelzés sáv (maradek %)
     const tMark=document.getElementById("trendMark");
@@ -617,7 +617,7 @@
     if(tTxt){
       if(projEnd < warnPct){ tTxt.textContent=`Veszély: ${HF(projEnd)}% maradék (kevés)`; tTxt.style.color="var(--red)"; notifyWarn(projEnd, c.start); }
       else if(projEnd < warnPct*2){ tTxt.textContent=`Határon: ${HF(projEnd)}% maradék (${warnPct}% alatt)`; tTxt.style.color="var(--gold)"; }
-      else { tTxt.textContent=`Biztos: ${HF(projEnd)}% maradék`; tTxt.style.color="var(--green)"; }
+      else { tTxt.textContent=`Biztos: ${HF(projEnd)}% maradék`; tTxt.style.color="var(--good)"; }
     }
 
     // reset badge: utolso 1 oraban PERCBEN, <24 oraban ora/formaban, utana nap
