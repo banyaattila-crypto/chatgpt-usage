@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ChatGPT Usage · Heti ciklus</title>
-<meta name="theme-color" content="#070b16">
+<meta name="theme-color" content="#0a0604">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,44 +12,47 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,900&family=Geist:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#140d0a; --txt:#f3e9e2; --muted:#a89080;
-    --gold:#a01d3a; --gold-soft:#e0b070;
-    --green:#d4a05a; --green-soft:#e0b070; --green-box:rgba(212,160,90,.18); --teal:#c8954a;
+    /* PREMIUM OBSIDIAN + GOLD paletta - fontok ertintetlenek */
+    --bg:#0a0604; --txt:#f5ece2; --muted:#9a8b7c;
+    --gold:#d4a05a; --gold-soft:#e0b070; --gold-deep:#a8742f;
+    --accent:#a01d3a;            /* bordó csak veszélyre */
+    --good:#d4a05a; --good-soft:#e0b070; --good-box:rgba(212,160,90,.16);
+    --teal:#c8954a;
     --purple:#8b5a2b; --purple-soft:#a0703a;
     --red:#a01d3a;
-    --glass:rgba(255,240,230,.05);
-    --glass-strong:rgba(255,240,230,.08);
-    --glass-border:rgba(255,230,210,.12);
-    --glass-hi:rgba(255,235,220,.45);
-    --bar-done:rgba(255,240,230,.18); --bar-today:#a01d3a; --bar-future:rgba(255,240,230,.06);
+    --glass:rgba(255,240,225,.045);
+    --glass-strong:rgba(255,240,225,.07);
+    --glass-border:rgba(255,225,195,.13);
+    --glass-hi:rgba(255,235,215,.5);
+    --bar-done:rgba(212,160,90,.22); --bar-today:#d4a05a; --bar-future:rgba(255,240,225,.05);
     --bg-grad:
-      radial-gradient(900px 520px at 78% -8%,  #2a1610 0%, transparent 60%),
-      radial-gradient(720px 480px at 12% 8%,   #3a1420 0%, transparent 58%),
-      radial-gradient(820px 620px at 88% 102%, #1a1410 0%, transparent 60%),
-      linear-gradient(160deg,#140d0a 0%,#1c120c 55%,#140d0a 100%);
+      radial-gradient(900px 520px at 82% -10%, rgba(120,80,40,.30) 0%, transparent 58%),
+      radial-gradient(720px 480px at 8% 12%,   rgba(160,29,58,.16) 0%, transparent 56%),
+      radial-gradient(860px 640px at 90% 104%, rgba(70,45,25,.40) 0%, transparent 60%),
+      linear-gradient(160deg,#0a0604 0%,#160d08 55%,#0a0604 100%);
   }
-  /* TEMA: sotet (blur nelkul, egyszeru) */
+  /* TEMA: sotet */
   html[data-theme="dark"]{
-    --bg-grad:linear-gradient(160deg,#070b16 0%,#0a1020 55%,#070b16 100%);
-    --glass:rgba(255,255,255,.045);
-    --glass-strong:rgba(255,255,255,.07);
-    --glass-border:rgba(255,255,255,.10);
+    --bg-grad:linear-gradient(160deg,#060810 0%,#0a1020 55%,#060810 100%);
+    --glass:rgba(255,255,255,.04);
+    --glass-strong:rgba(255,255,255,.06);
+    --glass-border:rgba(255,255,255,.09);
   }
   html[data-theme="dark"] .aurora{display:none;}
   /* TEMA: napfeny (vilagos) */
   html[data-theme="light"]{
-    --txt:#1a1f2e; --muted:#5a6378;
-    --bg-grad:linear-gradient(160deg,#eef2fb 0%,#dfe6f5 60%,#eef2fb 100%);
-    --glass:rgba(255,255,255,.55);
-    --glass-strong:rgba(255,255,255,.7);
-    --glass-border:rgba(20,30,60,.14);
+    --txt:#1c1814; --muted:#6a5d4e;
+    --bg-grad:linear-gradient(160deg,#f3ece2 0%,#e8dccb 60%,#f3ece2 100%);
+    --glass:rgba(255,255,255,.5);
+    --glass-strong:rgba(255,255,255,.66);
+    --glass-border:rgba(120,80,40,.16);
     --glass-hi:rgba(255,255,255,.9);
-    --bar-done:rgba(20,30,60,.18); --bar-future:rgba(20,30,60,.06);
+    --bar-done:rgba(120,80,40,.18); --bar-future:rgba(120,80,40,.06);
   }
   html[data-theme="light"] .aurora{display:none;}
-  html[data-theme="light"] .card{box-shadow:0 12px 40px rgba(20,30,60,.18), inset 0 1px 0 rgba(255,255,255,.6);}
-  html[data-theme="light"] h1{filter:drop-shadow(0 2px 8px rgba(255,200,87,.4));}
-  html[data-theme="light"] .big{filter:drop-shadow(0 2px 10px rgba(255,200,87,.4));}
+  html[data-theme="light"] .card{box-shadow:0 12px 40px rgba(120,80,40,.18), inset 0 1px 0 rgba(255,255,255,.6);}
+  html[data-theme="light"] h1{filter:drop-shadow(0 2px 8px rgba(212,160,90,.4));}
+  html[data-theme="light"] .big{filter:drop-shadow(0 2px 10px rgba(212,160,90,.4));}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html,body{min-height:100%;}
   body{
@@ -60,7 +63,7 @@
   }
   /* lebegő aurora blobok (blur) - ez ad életet az üvegnek */
   .aurora{position:fixed;z-index:0;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none;mix-blend-mode:screen;}
-  .a2{width:300px;height:300px;right:-60px;top:30%;background:radial-gradient(circle,#a01d3a 0%,transparent 70%);animation:float2 18s ease-in-out infinite;}
+  .a2{width:300px;height:300px;right:-60px;top:30%;background:radial-gradient(circle,#d4a05a 0%,transparent 70%);animation:float2 18s ease-in-out infinite;}
   .a3{width:260px;height:260px;left:30%;bottom:-40px;background:radial-gradient(circle,#d4a05a 0%,transparent 70%);animation:float3 16s ease-in-out infinite;}
   @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
   @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
@@ -73,9 +76,9 @@
   .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;
     background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
   .chip.reset{color:var(--gold);}
-  .chip.plan{color:var(--green);}
+  .chip.plan{color:var(--good);}
   .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
-  .dot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);} .dot.green{background:var(--green);box-shadow:0 0 6px var(--green);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
+  .dot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);} .dot.green{background:var(--good);box-shadow:0 0 6px var(--good);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
   .eyebrow{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;margin-bottom:6px;}
   h1{font-size:34px;font-weight:900;letter-spacing:-.01em;line-height:1.05;font-family:"Fraunces",Georgia,serif;
     background:linear-gradient(100deg,#f3e9e2 0%,#fff 42%,#d4a05a 50%,#fff 58%,#f3e9e2 100%);
@@ -116,22 +119,22 @@
   .usagerow{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:10px;}
   .usagerow .lbl{font-size:13px;color:var(--txt);display:flex;align-items:center;gap:7px;}
   .editwrap{display:inline-flex;align-items:center;gap:6px;position:relative;cursor:text;}
-  .valbox{color:var(--green);font-weight:800;font-size:18px;padding:8px 12px;border-radius:12px;font-variant-numeric:tabular-nums;transition:.2s;
-    background:var(--green-box);border:1px solid rgba(52,211,153,.35);backdrop-filter:blur(8px);}
+  .valbox{color:var(--good);font-weight:800;font-size:18px;padding:8px 12px;border-radius:12px;font-variant-numeric:tabular-nums;transition:.2s;
+    background:var(--good-box);border:1px solid rgba(212,160,90,.35);backdrop-filter:blur(8px);}
   .valbox small{font-size:12px;font-weight:700;opacity:.8;}
-  .editwrap:hover .valbox{outline:1px dashed rgba(52,211,153,.5);}
+  .editwrap:hover .valbox{outline:1px dashed rgba(212,160,90,.5);}
   .editinp{
-    width:0;opacity:0;padding:0;border:none;background:transparent;color:var(--green);
+    width:0;opacity:0;padding:0;border:none;background:transparent;color:var(--good);
     font-weight:800;font-size:18px;transition:.25s;font-variant-numeric:tabular-nums;
   }
   .editwrap.open .editinp{width:72px;opacity:1;padding:8px 10px;background:var(--glass-strong);border:1px solid var(--glass-border);border-radius:10px;}
   .editwrap.open .valbox{display:none;}
   .savebtn{
-    width:0;opacity:0;overflow:hidden;border:none;background:var(--green);color:#06281d;
+    width:0;opacity:0;overflow:hidden;border:none;background:var(--good);color:#2a1a08;
     border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;transition:.25s;height:34px;
   }
   .editwrap.open .savebtn{width:38px;opacity:1;}
-  .editinp:focus{outline:none;border-color:var(--green);}
+  .editinp:focus{outline:none;border-color:var(--good);}
   .anchorbar{display:flex;align-items:center;gap:10px;margin-top:18px;border-top:1px solid rgba(255,255,255,.10);padding-top:14px;flex-wrap:wrap;}
   .anchorlbl{font-size:12px;color:var(--muted);font-weight:700;}
   .anchorbts{display:flex;gap:5px;flex-wrap:wrap;}
@@ -140,13 +143,13 @@
     border-radius:9px;padding:6px 9px;font-size:11px;font-weight:700;cursor:pointer;transition:.15s;
     backdrop-filter:blur(8px);
   }
-  .anchorbts button.active{background:rgba(52,211,153,.20);border-color:rgba(52,211,153,.5);color:var(--green);}
+  .anchorbts button.active{background:rgba(212,160,90,.20);border-color:rgba(212,160,90,.5);color:var(--good);}
   .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:18px;}
   .day{text-align:center;padding:6px 2px 8px;border-radius:10px;display:flex;flex-direction:column;align-items:stretch;
     background:var(--glass-strong);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);}
-  .day.today{background:rgba(255,200,87,.16);outline:1px solid rgba(255,200,87,.45);}
+  .day.today{background:rgba(212,160,90,.16);outline:1px solid rgba(212,160,90,.45);}
   .seg{height:9px;border-radius:3px;background:var(--bar-future);margin:0 0 7px;width:100%;}
-  .seg.done{background:var(--bar-done);} .seg.today{background:var(--bar-today);box-shadow:0 0 6px rgba(255,200,87,.6);}
+  .seg.done{background:var(--bar-done);} .seg.today{background:var(--bar-today);box-shadow:0 0 6px rgba(212,160,90,.6);}
   .seg.over{background:linear-gradient(90deg,#a01d3a,#7a1230);box-shadow:0 0 6px rgba(160,29,58,.6);}
   .seg.under{background:linear-gradient(90deg,#d4a05a,#e0b070);}
   .day .d{font-size:11px;color:var(--muted);font-weight:700;}
@@ -166,7 +169,7 @@
     position:absolute;top:6px;left:8px;right:auto;
     color:var(--gold);
     font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.02em;
-    background:rgba(255,200,87,.12);border:1px solid rgba(255,200,87,.35);
+    background:rgba(212,160,90,.12);border:1px solid rgba(212,160,90,.35);
     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   }
   .circles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
@@ -207,14 +210,14 @@
   .histrow .hl-range{color:var(--muted);font-weight:600;}
   .histrow .hl-vals{display:flex;gap:12px;font-variant-numeric:tabular-nums;font-weight:700;}
   .histrow .hl-vals .end{color:var(--gold);}
-  .histrow .hl-vals .avg{color:var(--green);}
+  .histrow .hl-vals .avg{color:var(--good);}
   .histrow.empty{justify-content:center;color:var(--muted);font-weight:500;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
   .trendbar{margin-top:14px;}
   .trendlbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .trendlbl span{color:var(--txt);}
   .trendtrack{position:relative;height:14px;border-radius:7px;overflow:hidden;
-    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#d4a05a 85%,#e0b070 100%)
+    background:linear-gradient(90deg,#a01d3a 0%,#a8742f 30%,#d4a05a 65%,#e0b070 100%)
     box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
   .trendmark{position:absolute;top:-3px;width:4px;height:20px;border-radius:2px;background:#fff;
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
@@ -222,11 +225,11 @@
   .trendscale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;font-weight:600;}
   /* 3. frissites sav (uj verzio) */
   #updateBar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:center;gap:14px;
-    background:linear-gradient(90deg,#2a1410,#3a1c18);border-top:1px solid rgba(184,59,77,.4);
+    background:linear-gradient(90deg,#1c0f0a,#2a1810);border-top:1px solid rgba(212,160,90,.35);
     padding:10px 16px;font-size:13px;color:#e0b070;font-weight:700;backdrop-filter:blur(8px);}
-  #updateBar button{background:#a01d3a;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
+  #updateBar button{background:#a8742f;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
   /* 4. reset-pillanat animacio (uj ciklus) */
-  @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(52,211,153,.0);}30%{box-shadow:0 0 0 6px rgba(52,211,153,.5);}100%{box-shadow:0 0 0 0 rgba(52,211,153,0);}}
+  @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(212,160,90,.0);}30%{box-shadow:0 0 0 6px rgba(212,160,90,.5);}100%{box-shadow:0 0 0 0 rgba(212,160,90,0);}}
   .reset-flash{animation:resetFlash 1.6s ease-out 1;}
   @keyframes resetPop{0%{transform:scale(1);}40%{transform:scale(1.06);}100%{transform:scale(1);}}
   /* TOPNAV: kompakt potty navigacio (felul, kozepen) */
@@ -241,8 +244,8 @@
   .hm-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 10px/1 sans-serif;color:rgba(255,255,255,.85);position:relative;}
   .hm-cell .dlab{opacity:.85;}
   .hm.over{background:rgba(160,29,58,.85);}
-  .hm.warn{background:rgba(255,200,87,.8);}
-  .hm.under{background:rgba(52,211,153,.7);}
+  .hm.warn{background:rgba(212,160,90,.8);}
+  .hm.under{background:rgba(212,160,90,.7);}
   .hm.none{background:rgba(255,255,255,.07);color:var(--muted);}
   .heatmap-legend{display:flex;flex-wrap:wrap;gap:10px 12px;justify-content:center;max-width:440px;margin:0 auto 14px;font:12px sans-serif;color:var(--muted);box-sizing:border-box;}
   .heatmap-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px;}
@@ -254,7 +257,7 @@
 </style>
 </head>
 <body>
-<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#2a1015;color:#f0c0c8;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #a01d3a;"></div>
+<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#1c0f0a;color:#e0b070;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #a01d3a;"></div>
 <div class="aurora a1"></div>
 <div class="aurora a2"></div>
 <div class="aurora a3"></div>
@@ -541,7 +544,7 @@
       pc.style.background="rgba(138,147,168,.15)"; pc.style.color="var(--muted)";
       pt.textContent="Nincs adat";
     } else if(c.delta>=0){   // tobb maradt a tervnel = jo (zold)
-      pc.style.background="rgba(52,211,153,.14)"; pc.style.color="var(--green)";
+      pc.style.background="rgba(212,160,90,.14)"; pc.style.color="var(--good)";
       pt.textContent=`Terv felett ${HF(c.delta)}% maradék`;
     } else {                  // kevesebb maradt = fogyó (bordó)
       pc.style.background="rgba(160,29,58,.18)"; pc.style.color="var(--red)";
