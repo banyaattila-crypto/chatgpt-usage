@@ -442,14 +442,21 @@
           if(!j || !j.ok || !j.data) return;
           const remote = j.data;
           const local = JSON.parse(localStorage.getItem(STORE) || "{}");
+          // EGYESITES: ne toroljuk a helyi adatot, csak uniozzuk a history-t
+          const merged = Object.assign({}, remote);
+          merged.history = Object.assign({}, remote.history||{}, local.history||{});
+          // realPct: a frissebb (nagyobb) ertek, vagy ha a helyi frissebb napja van
           const rc = Object.keys(remote.history||{}).length;
           const lc = Object.keys(local.history||{}).length;
-          const isNewer = rc > lc || (rc===lc && (remote.realPct||0) > (local.realPct||0));
+          if(!(rc > lc || (rc===lc && (remote.realPct||0) > (local.realPct||0)))){
+            merged.realPct = local.realPct;
+          }
+          const isNewer = Object.keys(merged.history).length > lc || (merged.realPct||0) > (local.realPct||0);
           if(isNewer){
-            localStorage.setItem(STORE, JSON.stringify(remote));
+            localStorage.setItem(STORE, JSON.stringify(merged));
             state = load();
             render();
-            console.log("Auto-pull: ujabb adat betoltve a Drive-rol");
+            console.log("Auto-pull: ujabb adat betoltve a Drive-rol (egyesitve)");
           }
         })
         .catch(e=>console.warn("pullBackup sikertelen (tunnel lehet leallt):", e.message));
@@ -620,6 +627,13 @@
     if(lastStart !== null && c.start.getTime() !== lastStart){
       const card = document.querySelector(".card");
       if(card){ card.classList.remove("reset-pop"); void card.offsetWidth; card.classList.add("reset-pop"); }
+      // Lezart ciklus mentese: az elozo ciklus realPct-je beirasa a historyba (utolso nap)
+      const prevEnd = new Date(lastStart + 7*DAY_MS - DAY_MS); // elozo ciklus utolso napja
+      const key = prevEnd.getFullYear()+"-"+(prevEnd.getMonth()+1)+"-"+prevEnd.getDate();
+      if(state.realPct != null && !(state.history && state.history[key] != null)){
+        state.history[key] = Math.max(0, Math.min(100, state.realPct));
+        save();  // mentes + Drive push
+      }
     }
     lastStart = c.start.getTime();
   }
