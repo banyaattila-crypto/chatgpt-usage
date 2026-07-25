@@ -9,11 +9,11 @@ const errors = [];
 const dom = new JSDOM(html, {
   runScripts: "dangerously",
   pretendToBeVisual: true,
-  url: "https://claudeusagedashboard.vercel.app/",
+  url: "https://chatgptusage.vercel.app/",
   beforeParse(window) {
     window.fetch = (url, opts) => {
       if (String(url).includes("/load")) {
-        return Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true, data: { realPct: 10, anchor: 5, history: { "2026-7-20": 5 }, notify: false } }) });
+        return Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true, data: { realPct: 10, anchor: 2, history: { "2026-7-20": 5 }, notify: false } }) });
       }
       return Promise.resolve({ ok: true, json: () => Promise.resolve({ ok: true }) });
     };

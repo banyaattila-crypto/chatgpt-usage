@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// backup_relay.js - minimalis relay: POST /save kap egy JSON-t (localStorage tartalom),
+// backup_relay.cjs - minimalis relay: POST /save kap egy JSON-t (localStorage tartalom),
 // elmenti rclone-val a Google Drive-ra. CSOK: nem tarol tokent, csak ir a drive:-ba.
-// Inditas: node backup_relay.js  [PORT=auto 8765]
+// Inditas: node backup_relay.cjs  [PORT=auto 8766]
 const http = require("http");
 const { execFileSync } = require("child_process");
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
 
-const PORT = process.env.BACKUP_PORT || 8765;
-const REMOTE = "drive:/claude-usage/kvota_usage_v1.json";
-const TMP = path.join(os.tmpdir(), "kvota_backup_tmp.json");
+const PORT = process.env.BACKUP_PORT || 8766;
+const REMOTE = "drive:/chatgpt-usage/chatgpt_usage_v1.json";
+const TMP = path.join(os.tmpdir(), "chatgpt_backup_tmp.json");
 
 const server = http.createServer((req, res) => {
   if (req.method === "POST" && req.url === "/save") {

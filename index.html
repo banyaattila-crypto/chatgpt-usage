@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Claude Usage · Heti ciklus</title>
+<title>ChatGPT Usage · Heti ciklus</title>
 <meta name="theme-color" content="#070b16">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
@@ -12,20 +12,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,900&family=Geist:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#070b16; --txt:#eef2fb; --muted:#9aa4bd;
-    --gold:#ffc857; --gold-soft:#f5b942;
-    --green:#34d399; --green-soft:#5eead4; --green-box:rgba(16,185,129,.18); --teal:#2dd4bf;
-    --red:#ff7676;
-    --glass:rgba(255,255,255,.066);
-    --glass-strong:rgba(255,255,255,.10);
-    --glass-border:rgba(255,255,255,.14);
-    --glass-hi:rgba(255,255,255,.55);
-    --bar-done:rgba(255,255,255,.20); --bar-today:#ffc857; --bar-future:rgba(255,255,255,.07);
+    --bg:#000000; --txt:#ececf1; --muted:#8e8ea0;
+    --gold:#10a37f; --gold-soft:#19c37d;
+    --green:#10a37f; --green-soft:#19c37d; --green-box:rgba(16,163,127,.20); --teal:#19c37d;
+    --purple:#5436da; --purple-soft:#7c5cff;
+    --red:#ff6b6b;
+    --glass:rgba(255,255,255,.05);
+    --glass-strong:rgba(255,255,255,.08);
+    --glass-border:rgba(255,255,255,.12);
+    --glass-hi:rgba(255,255,255,.45);
+    --bar-done:rgba(255,255,255,.18); --bar-today:#10a37f; --bar-future:rgba(255,255,255,.06);
     --bg-grad:
-      radial-gradient(900px 520px at 78% -8%,  #1a2547 0%, transparent 60%),
-      radial-gradient(720px 480px at 12% 8%,   #2a1d4d 0%, transparent 58%),
-      radial-gradient(820px 620px at 88% 102%, #0c3b3a 0%, transparent 60%),
-      linear-gradient(160deg,#070b16 0%,#0a1020 55%,#070b16 100%);
+      radial-gradient(900px 520px at 78% -8%,  #0d2818 0%, transparent 60%),
+      radial-gradient(720px 480px at 12% 8%,   #1a1140 0%, transparent 58%),
+      radial-gradient(820px 620px at 88% 102%, #06303a 0%, transparent 60%),
+      linear-gradient(160deg,#000000 0%,#0a0a0f 55%,#000000 100%);
   }
   /* TEMA: sotet (blur nelkul, egyszeru) */
   html[data-theme="dark"]{
@@ -77,7 +78,7 @@
   .dot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);} .dot.green{background:var(--green);box-shadow:0 0 6px var(--green);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
   .eyebrow{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;margin-bottom:6px;}
   h1{font-size:34px;font-weight:900;letter-spacing:-.01em;line-height:1.05;font-family:"Fraunces",Georgia,serif;
-    background:linear-gradient(100deg,#ffc857 0%,#fff 35%,#ffe9b0 50%,#fff 65%,#ffc857 100%);
+    background:linear-gradient(100deg,#10a37f 0%,#fff 35%,#19c37d 50%,#fff 65%,#10a37f 100%);
     background-size:200% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
@@ -100,7 +101,7 @@
   .ma-label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;}
   .hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 4px;}
   .big{font-size:64px;font-weight:900;line-height:1;margin:0;font-variant-numeric:tabular-nums;font-family:"Fraunces",Georgia,serif;letter-spacing:-.01em;
-    background:linear-gradient(100deg,#fff 0%,#ffc857 40%,#ffd97a 55%,#fff 100%);
+    background:linear-gradient(100deg,#fff 0%,#10a37f 40%,#19c37d 55%,#fff 100%);
     background-size:200% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
@@ -211,7 +212,7 @@
   .trendlbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .trendlbl span{color:var(--txt);}
   .trendtrack{position:relative;height:14px;border-radius:7px;overflow:hidden;
-    background:linear-gradient(90deg,#34d399 0%,#7be36b 35%,#ffc857 65%,#ff9f43 85%,#ff6b6b 100%);
+    background:linear-gradient(90deg,#10a37f 0%,#19c37d 35%,#7c5cff 65%,#ff9f43 85%,#ff6b6b 100%);
     box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
   .trendmark{position:absolute;top:-3px;width:4px;height:20px;border-radius:2px;background:#fff;
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
@@ -268,8 +269,8 @@
     <span class="right"><span id="net">5G</span><span id="bat">● 40%</span><button id="themeBtn" class="themebtn" title="Téma váltása">◐</button><button id="notifBtn" class="themebtn" title="Veszély értesítés bekapcsolása">🔔</button></span>
   </div>
 
-  <div class="eyebrow">CLAUDE USAGE · HETI CIKLUS</div>
-  <h1>Claude Usage</h1>
+  <div class="eyebrow">CHATGPT USAGE · HETI CIKLUS</div>
+  <h1>ChatGPT Usage</h1>
   <div class="daterange" id="daterange">—</div>
 
   <div class="tagrow">
@@ -307,7 +308,7 @@
       <div class="resetbadge" id="resetBadge">—</div>
     </div>
     <div class="legend">
-      <span><span class="dot gold"></span>lineáris terv</span>
+      <span><span class="dot" style="background:#7c5cff;box-shadow:0 0 6px #7c5cff"></span>lineáris terv</span>
       <span><span class="dot green"></span>valós (napi + MA)</span>
       <span style="color:var(--gold-soft)">■ RESET</span>
     </div>
@@ -384,7 +385,7 @@
     if(p){ p.style.display="block"; p.textContent = "PROMISE HIBA: " + r; }
   });
   const DAY_MS = 86400000;
-  const STORE = "kvota_usage_v1";
+  const STORE = "chatgpt_usage_v1";
   const HF = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
   const MON = ["jan","febr","márc","ápr","máj","jún","júl","aug","szept","okt","nov","dec"];
   const WDS = ["VAS","HÉT","KED","SZE","CSÜ","PÉN","SZO"];
@@ -411,16 +412,16 @@
 
   function load(){
     try{ const s=JSON.parse(localStorage.getItem(STORE)); if(s&&typeof s==="object") return s; }catch(e){}
-    return {realPct:null, anchor:5, history:{}, notify:false};
+    return {realPct:null, anchor:2, history:{}, notify:false};
   }
   let state = load();
-  if(typeof state.anchor!=="number") state.anchor=5;
+  if(typeof state.anchor!=="number") state.anchor=2;
   if(typeof state.history!=="object" || state.history===null) state.history={};
   if(typeof state.notify!=="boolean") state.notify=false;
-  function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("kvota_last_sync", String(Date.now())); syncBackup(); }
+  function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("chatgpt_last_sync", String(Date.now())); syncBackup(); }
   // P1: auto-backup a Google Drive-ra (relay + cloudflared tunnel, Termux-on).
   // A tunnel URL valtozhat -> ha uj tunnel indul, frissitsd a BACKUP_URL-t.
-  const BACKUP_URL = "https://thickness-flexible-strong-hans.trycloudflare.com/save";
+  const BACKUP_URL = "https://REPLACE-ME-CHATGPT.trycloudflare.com/save"; // TODO: chatgpt relay tunnel URL
   let backupBusy = false;
   function syncBackup(){
     if(backupBusy) return;
@@ -465,18 +466,18 @@
   const THEMES=["glass","dark","light"];
   const THEME_ICON={glass:"◐",dark:"●",light:"☀"};
   function applyTheme(t){ document.documentElement.setAttribute("data-theme", t==="glass"?"":t); const b=document.getElementById("themeBtn"); if(b) b.textContent=THEME_ICON[t]||"◐"; }
-  const savedTheme = localStorage.getItem("kvota_theme") || "glass";
+  const savedTheme = localStorage.getItem("chatgpt_theme") || "glass";
   applyTheme(savedTheme);
-  function todayKey(now){ const d=new Date(now); if(now.getHours()>=16) d.setDate(d.getDate()+1); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+  function todayKey(now){ const d=new Date(now); if(now.getHours()>22 || (now.getHours()===22 && now.getMinutes()>=11)) d.setDate(d.getDate()+1); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
 
   // anchor = reset nap (getDay érték). A ciklus a legutóbbi anchor 16:00-től a következő anchor 16:00-ig tart.
   function cycleStart(now, aw){
     const x = new Date(now.getTime());
-    x.setHours(16,0,0,0);
+    x.setHours(22,11,0,0);
     let guard=0;
     // visszafele lépdelünk naponta, amíg nem találunk egy anchor-napi 16:00-at, ami már elmúlt
     while(!(x.getDay()===aw && x.getTime()<=now.getTime()) && guard<14){
-      x.setDate(x.getDate()-1); x.setHours(16,0,0,0); guard++;
+      x.setDate(x.getDate()-1); x.setHours(22,11,0,0); guard++;
     }
     return x;
   }
@@ -543,7 +544,7 @@
       Object.keys(state.history).forEach(k=>{
         const p=k.split("-"); const dt=new Date(+p[0],+p[1]-1,+p[2]);
         if(dt<c.start || dt>=c.end) return;
-        const dayIdx=Math.max(0,Math.min(6,Math.floor((dt - c.start + 16*3600*1000)/DAY_MS)));
+        const dayIdx=Math.max(0,Math.min(6,Math.floor((dt - c.start + (22*3600+11*60)*1000)/DAY_MS)));
         if(dayIdx<0||dayIdx>6) return;
         realByDay[dayIdx]=Math.max(0,Math.min(100,state.history[k]));
       });
@@ -647,7 +648,7 @@
     if(keys.length===0){ list.innerHTML=`<div class="histrow empty">Még nincs lezárt ciklus · írd be a napi %-okat</div>`; return; }
     // csoportositas ciklusokra: az adott bejegyzes a hozza tartozo legkozelebbi anchor 16:00 start szerint
     function cycStartOf(dateStr){
-      const p=dateStr.split("-"); let d=new Date(+p[0],+p[1]-1,+p[2],16,0,0);
+      const p=dateStr.split("-"); let d=new Date(+p[0],+p[1]-1,+p[2],22,11,0);
       let guard=0;
       while(!(d.getDay()===c.aw && d<=new Date(+p[0],+p[1]-1,+p[2])) && guard<14){ d.setDate(d.getDate()-1); d.setHours(16,0,0,0); guard++; }
       return d;
@@ -677,9 +678,9 @@
     const sameCycle = cycleStart && lastWarnCycle===cycleStart.getTime();
     if(sameCycle && (now-lastWarnTs) < 2*3600*1000) return;
     try{
-      new Notification("⚠️ Claude kvóta veszély", {
+      new Notification("⚠️ ChatGPT kvóta veszély", {
         body:`Várható vége: ${HF(projEnd)}% — túllépés várható! (terv helyett kevesebbel gazdálkodj)`,
-        tag:"kvota-veszely"
+        tag:"chatgpt-veszely"
       });
       lastWarnCycle = cycleStart? cycleStart.getTime() : null;
       lastWarnTs = now;
@@ -709,14 +710,14 @@
         <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
       <pattern id="gridRaster" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-        <line x1="0" y1="0" x2="0" y2="9" stroke="#27314a" stroke-width="0.6"/>
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#1a1a2e" stroke-width="0.6"/>
       </pattern>
     </defs>`;
     // raszter háttér a plot területen
     s+=`<rect x="${x0}" y="${y1}" width="${x1-x0}" height="${y0-y1}" fill="url(#gridRaster)"/>`;
     // grid (fintebb, halványabb)
     [0,25,50,75,100].forEach(v=>{
-      s+=`<line x1="${x0}" y1="${Y(v)}" x2="${x1}" y2="${Y(v)}" stroke="#1c2438" stroke-width="1"/>`;
+      s+=`<line x1="${x0}" y1="${Y(v)}" x2="${x1}" y2="${Y(v)}" stroke="#16161f" stroke-width="1"/>`;
       s+=`<text x="${x0-8}" y="${Y(v)+3}" fill="#6b7488" font-size="9" text-anchor="end">${v}%</text>`;
     });
     // X labels: i. X-pont = a (i+1). napi szegmentum vege (aw+1+i)%7, illeszkedik a napi racshoz
@@ -732,11 +733,11 @@
     // kitöltés a terv-görbe alatt
     s+=`<path d="${pl} L ${X(7)} ${y0} L ${X(0)} ${y0} Z" fill="url(#fillGrad)"/>`;
     // terv vonal (glow nelkul, hogy Androidon is latszodjon) + animacio
-    s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#ffc857" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
+    s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#7c5cff" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
       const v=i*100/7;
-      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#ffc857" stroke="#fff3d6" stroke-width="1.5"/>`;
-      s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#ffc857" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#7c5cff" stroke="#e6dcff" stroke-width="1.5"/>`;
+      s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#7c5cff" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
     }
     // MAI AKTUALIS sarga pont (frac*100 helyen) - nagyobb, hogy latszodjon a "mai korlat"
     if(c && typeof c.frac==="number"){
@@ -754,7 +755,7 @@
         if(d<c.start || d>=c.end) return;
         // +16h korrekcio: a mentett datum (mar 16:00 utani napra korrigalva) a szegmens kozepere esik,
         // igy a helyes ciklusnapi oszlopba kerul (clamp 0..6)
-        const dayIdx=Math.max(0,Math.min(6,Math.floor((d - c.start + 16*3600*1000)/DAY_MS)));
+        const dayIdx=Math.max(0,Math.min(6,Math.floor((d - c.start + (22*3600+11*60)*1000)/DAY_MS)));
         if(dayIdx<0||dayIdx>6) return;
         pts.push([dayIdx, Math.max(0,Math.min(100,history[k]))]);
       });
@@ -770,10 +771,10 @@
         pts.forEach(pt=>{ al+=` L ${X(pt[0])} ${Y(pt[1])}`; });
         al+=` L ${X(pts[pts.length-1][0])} ${y0} Z`;
         s+=`<path class="ln-real-area" d="${al}" fill="url(#realFill)" stroke="none" opacity=".5"/>`;
-        s+=`<path class="ln-real" pathLength="1" d="${rl}" fill="none" stroke="#34d399" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round" stroke-linejoin="round"/>`;
+        s+=`<path class="ln-real" pathLength="1" d="${rl}" fill="none" stroke="#10a37f" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round" stroke-linejoin="round"/>`;
         pts.forEach(pt=>{
           const px=X(pt[0]), py=Y(pt[1]);
-          s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="#34d399" stroke="#0b0f1a" stroke-width="1.5"/>`;
+          s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="#10a37f" stroke="#0b0f1a" stroke-width="1.5"/>`;
         });
       }
     }
@@ -783,7 +784,7 @@
     if(c.real!=null){
       const rx=X(c.frac*7), ry=Y(c.real);
       // valós függőleges guide
-      s+=`<line x1="${rx}" y1="${ry}" x2="${rx}" y2="${y0}" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
+      s+=`<line x1="${rx}" y1="${ry}" x2="${rx}" y2="${y0}" stroke="#19c37d" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
       // MA pulzáló halo
       s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#34d399" opacity=".25"><animate attributeName="r" values="6;11;6" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".30;.05;.30" dur="1.8s" repeatCount="indefinite"/></circle>`;
       s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#34d399" stroke="#0b0f1a" stroke-width="2" filter="url(#glow)"/>`;
@@ -819,9 +820,9 @@
     bubblesGroup.setAttribute("id","bubbles");
     bubblePts = [];
     const COLORS = [
-      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#ffc857" },
-      { n: 8,  r: 1.8, base: 0.065, op: 0.45, color: "#34d399" },
-      { n: 12, r: 1.5, base: 0.105, op: 0.40, color: "#7dd3fc" },
+      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#10a37f" },
+      { n: 8,  r: 1.8, base: 0.065, op: 0.45, color: "#19c37d" },
+      { n: 12, r: 1.5, base: 0.105, op: 0.40, color: "#7c5cff" },
     ];
     COLORS.forEach(w=>{
       for(let i=0;i<w.n;i++){
@@ -955,11 +956,11 @@
       const cur=document.documentElement.getAttribute("data-theme")||"glass";
       const next=THEMES[(THEMES.indexOf(cur)+1)%THEMES.length];
       applyTheme(next);
-      localStorage.setItem("kvota_theme", next);
+      localStorage.setItem("chatgpt_theme", next);
     });
   }
 
-  // BACKUP: export / import localStorage (kvota_usage_v1)
+  // BACKUP: export / import localStorage (chatgpt_usage_v1)
   const exportBtn=document.getElementById("exportBtn");
   const importBtn=document.getElementById("importBtn");
   const importFile=document.getElementById("importFile");
@@ -970,7 +971,7 @@
       const url=URL.createObjectURL(blob);
       const a=document.createElement("a");
       const d=new Date();
-      a.href=url; a.download=`claude-usage-backup-${d.toISOString().slice(0,10)}.json`;
+      a.href=url; a.download=`chatgpt-usage-backup-${d.toISOString().slice(0,10)}.json`;
       a.click();
       setTimeout(()=>URL.revokeObjectURL(url),1000);
     });
@@ -1052,7 +1053,7 @@
   });
 
   // === SETTINGS ===
-  const WARN_KEY = "kvota_warn";
+  const WARN_KEY = "chatgpt_warn";
   function refreshSettings(){
     const wi = document.getElementById("warnInput");
     if(wi){
@@ -1061,7 +1062,7 @@
     }
     const ss = document.getElementById("syncStat");
     if(ss){
-      const ts = localStorage.getItem("kvota_last_sync");
+      const ts = localStorage.getItem("chatgpt_last_sync");
       if(ts){
         const diff = Math.round((Date.now()-parseInt(ts,10))/60000);
         ss.textContent = diff<60 ? `${diff} perce` : `${Math.round(diff/60)} órája`;
@@ -1090,7 +1091,7 @@
       const blob=new Blob([data],{type:"application/json"});
       const url=URL.createObjectURL(blob);
       const a=document.createElement("a");
-      a.href=url; a.download=`claude-usage-backup-${new Date().toISOString().slice(0,10)}.json`;
+      a.href=url; a.download=`chatgpt-usage-backup-${new Date().toISOString().slice(0,10)}.json`;
       a.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
     });
   }

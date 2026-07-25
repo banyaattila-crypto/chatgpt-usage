@@ -1,13 +1,13 @@
 {
-  "name": "Claude Usage · Heti ciklus",
-  "short_name": "Claude Usage",
-  "description": "Heti Claude kvóta-követő közvetlen görbével (terv vs. valós)",
+  "name": "ChatGPT Usage · Heti ciklus",
+  "short_name": "ChatGPT Usage",
+  "description": "Heti ChatGPT kvóta-követő közvetlen görbével (terv vs. valós)",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#070b16",
-  "theme_color": "#070b16",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "/icon.svg",

@@ -1,6 +1,6 @@
 // PWA service worker: app-shell cache (offline elérés) + cache-busting verzióváltás
 const VERSION = "v10";
-const CACHE = "claude-usage-" + VERSION;
+const CACHE = "chatgpt-usage-" + VERSION;
 const ASSETS = [
   "/",
   "/index.html",
