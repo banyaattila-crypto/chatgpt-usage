@@ -425,7 +425,7 @@
   if(typeof state.anchor!=="number") state.anchor=5;
   if(typeof state.history!=="object" || state.history===null) state.history={};
   if(typeof state.notify!=="boolean") state.notify=false;
-  function save(){ localStorage.setItem(STORE, JSON.stringify(state)); syncBackup(); }
+  function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("kvota_last_sync", String(Date.now())); syncBackup(); }
   // P1: auto-backup a Google Drive-ra (relay + cloudflared tunnel, Termux-on).
   // A tunnel URL valtozhat -> ha uj tunnel indul, frissitsd a BACKUP_URL-t.
   const BACKUP_URL = "https://thickness-flexible-strong-hans.trycloudflare.com/save";
@@ -1108,13 +1108,6 @@
       e.target.value="";
     });
   }
-
-  // syncBackup-ba beirjuk az utolso mentes idopontjat
-  const _origSync = syncBackup;
-  syncBackup = function(){
-    localStorage.setItem("kvota_last_sync", String(Date.now()));
-    return _origSync.apply(this, arguments);
-  };
 
   // === 4. PWA: service worker visszakapcsolva (app-shell cache) ===
   if("serviceWorker" in navigator){
