@@ -501,6 +501,7 @@
 
   function render(){
     const grid = document.getElementById("daygrid");
+    grid.innerHTML = "";   // duplazoza sorok ellen: toroljuk az elozo napsort
     const now = new Date();
     const c = compute(now);
 
