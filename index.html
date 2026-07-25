@@ -421,7 +421,7 @@
   function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("chatgpt_last_sync", String(Date.now())); syncBackup(); }
   // P1: auto-backup a Google Drive-ra (relay + cloudflared tunnel, Termux-on).
   // A tunnel URL valtozhat -> ha uj tunnel indul, frissitsd a BACKUP_URL-t.
-  const BACKUP_URL = "https://REPLACE-ME-CHATGPT.trycloudflare.com/save"; // TODO: chatgpt relay tunnel URL
+  const BACKUP_URL = "https://robert-graphic-hoped-disclaimer.trycloudflare.com/save";
   let backupBusy = false;
   function syncBackup(){
     if(backupBusy) return;
