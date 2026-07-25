@@ -345,7 +345,7 @@
     <div class="eyebrow">ÉGETT NAPOK · NAPTÁR</div>
     <h2>Utolsó 5 hét</h2>
     <div class="heatmap-legend">
-      <span><i class="hm over"></i> túllépés</span>
+      <span><i class="hm over"></i> kevés maradék</span>
       <span><i class="hm warn"></i> kritikus</span>
       <span><i class="hm under"></i> takarékos</span>
       <span><i class="hm none"></i> nincs adat</span>
@@ -427,7 +427,8 @@
       Object.keys(state.history).forEach(k=>{ state.history[k] = Math.max(0,Math.min(100, 100 - (state.history[k]||0))); });
     }
     state.vRemain = true;
-    save();
+    // kozvetlen mentes (save() itt meg nem hivhato: backupBusy TDZ miatt), a kovetkezo render() ugyis ment
+    localStorage.setItem(STORE, JSON.stringify(state));
   }
   function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("chatgpt_last_sync", String(Date.now())); syncBackup(); }
   // P1: auto-backup a Google Drive-ra (relay + cloudflared tunnel, Termux-on).
