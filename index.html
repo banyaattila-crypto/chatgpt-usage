@@ -147,7 +147,7 @@
   .day.today{background:rgba(255,200,87,.16);outline:1px solid rgba(255,200,87,.45);}
   .seg{height:9px;border-radius:3px;background:var(--bar-future);margin:0 0 7px;width:100%;}
   .seg.done{background:var(--bar-done);} .seg.today{background:var(--bar-today);box-shadow:0 0 6px rgba(255,200,87,.6);}
-  .seg.over{background:linear-gradient(90deg,#ff7676,#ff9a9a);box-shadow:0 0 6px rgba(255,118,118,.6);}
+  .seg.over{background:linear-gradient(90deg,#a01d3a,#7a1230);box-shadow:0 0 6px rgba(160,29,58,.6);}
   .seg.under{background:linear-gradient(90deg,#d4a05a,#e0b070);}
   .day .d{font-size:11px;color:var(--muted);font-weight:700;}
   .day.today .d{color:var(--gold);}
@@ -240,7 +240,7 @@
   .heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:100%;max-width:440px;margin:0 auto;box-sizing:border-box;}
   .hm-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 10px/1 sans-serif;color:rgba(255,255,255,.85);position:relative;}
   .hm-cell .dlab{opacity:.85;}
-  .hm.over{background:rgba(255,80,80,.85);}
+  .hm.over{background:rgba(160,29,58,.85);}
   .hm.warn{background:rgba(255,200,87,.8);}
   .hm.under{background:rgba(52,211,153,.7);}
   .hm.none{background:rgba(255,255,255,.07);color:var(--muted);}
@@ -414,10 +414,10 @@
 
   function load(){
     try{ const s=JSON.parse(localStorage.getItem(STORE)); if(s&&typeof s==="object") return s; }catch(e){}
-    return {realPct:null, anchor:2, history:{}, notify:false};
+    return {realPct:null, anchor:0, history:{}, notify:false};
   }
   let state = load();
-  if(typeof state.anchor!=="number") state.anchor=2;
+  if(typeof state.anchor!=="number") state.anchor=0;   // 0 = Vasarnap (uj ciklus kezdete)
   if(typeof state.history!=="object" || state.history===null) state.history={};
   if(typeof state.notify!=="boolean") state.notify=false;
   // === MIGRACIO: felhasznalt% -> maradek% (100-rol indul, 0-ra fut ki) ===
@@ -544,7 +544,7 @@
       pc.style.background="rgba(52,211,153,.14)"; pc.style.color="var(--green)";
       pt.textContent=`Terv felett ${HF(c.delta)}% maradék`;
     } else {                  // kevesebb maradt = fogyó (bordó)
-      pc.style.background="rgba(255,118,118,.16)"; pc.style.color="var(--red)";
+      pc.style.background="rgba(160,29,58,.18)"; pc.style.color="var(--red)";
       pt.textContent=`Terv alatt ${HF(Math.abs(c.delta))}% maradék`;
     }
 
@@ -740,8 +740,8 @@
     // planned line coords (8 pont): 100%-ról (bal felső) 0%-ra (jobb alsó) - maradék
     let pl="";
     for(let i=0;i<8;i++){ pl+=(i?" L":"M")+X(i)+" "+Y(100 - i*100/7); }
-    // kitöltés a terv-görbe FELETT (maradék terület, 100%-tól a görbéig)
-    s+=`<path d="${pl} L ${X(7)} ${y1} L ${X(0)} ${y1} Z" fill="url(#fillGrad)"/>`;
+    // kitöltés a terv-görbe ALATT (maradék terület, a 0%-os aljáig)
+    s+=`<path d="${pl} L ${X(7)} ${y0} L ${X(0)} ${y0} Z" fill="url(#fillGrad)"/>`;
     // terv vonal (glow nelkul, hogy Androidon is latszodjon) + animacio
     s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#a01d3a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
