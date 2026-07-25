@@ -13,7 +13,7 @@
 <style>
   :root{
     --bg:#140d0a; --txt:#f3e9e2; --muted:#a89080;
-    --gold:#a01d3a; --gold-soft:#c94c5e;
+    --gold:#a01d3a; --gold-soft:#e0b070;
     --green:#d4a05a; --green-soft:#e0b070; --green-box:rgba(212,160,90,.18); --teal:#c8954a;
     --purple:#8b5a2b; --purple-soft:#a0703a;
     --red:#a01d3a;
@@ -78,7 +78,7 @@
   .dot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);} .dot.green{background:var(--green);box-shadow:0 0 6px var(--green);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
   .eyebrow{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;margin-bottom:6px;}
   h1{font-size:34px;font-weight:900;letter-spacing:-.01em;line-height:1.05;font-family:"Fraunces",Georgia,serif;
-    background:linear-gradient(100deg,#a01d3a 0%,#fff 42%,#d4a05a 50%,#fff 58%,#a01d3a 100%);
+    background:linear-gradient(100deg,#f3e9e2 0%,#fff 42%,#d4a05a 50%,#fff 58%,#f3e9e2 100%);
     background-size:120% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
@@ -101,7 +101,7 @@
   .ma-label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;}
   .hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 4px;}
   .big{font-size:64px;font-weight:900;line-height:1;margin:0;font-variant-numeric:tabular-nums;font-family:"Fraunces",Georgia,serif;letter-spacing:-.01em;
-    background:linear-gradient(100deg,#fff 0%,#a01d3a 44%,#d4a05a 52%,#fff 100%);
+    background:linear-gradient(100deg,#f3e9e2 0%,#d4a05a 44%,#e0b070 52%,#f3e9e2 100%);
     background-size:120% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
@@ -212,7 +212,7 @@
   .trendlbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .trendlbl span{color:var(--txt);}
   .trendtrack{position:relative;height:14px;border-radius:7px;overflow:hidden;
-    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#a01d3a 85%,#a01d3a 100%);
+    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#d4a05a 85%,#e0b070 100%)
     box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
   .trendmark{position:absolute;top:-3px;width:4px;height:20px;border-radius:2px;background:#fff;
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
@@ -221,7 +221,7 @@
   /* 3. frissites sav (uj verzio) */
   #updateBar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:center;gap:14px;
     background:linear-gradient(90deg,#2a1410,#3a1c18);border-top:1px solid rgba(184,59,77,.4);
-    padding:10px 16px;font-size:13px;color:#c94c5e;font-weight:700;backdrop-filter:blur(8px);}
+    padding:10px 16px;font-size:13px;color:#e0b070;font-weight:700;backdrop-filter:blur(8px);}
   #updateBar button{background:#a01d3a;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
   /* 4. reset-pillanat animacio (uj ciklus) */
   @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(52,211,153,.0);}30%{box-shadow:0 0 0 6px rgba(52,211,153,.5);}100%{box-shadow:0 0 0 0 rgba(52,211,153,0);}}
@@ -230,7 +230,7 @@
   /* TOPNAV: kompakt potty navigacio (felul, kozepen) */
   .topnav{display:flex;gap:10px;justify-content:center;width:100%;max-width:440px;margin:10px auto 2px;padding:0 14px;box-sizing:border-box;}
   .navdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);padding:0;cursor:pointer;transition:.15s;}
-  .navdot.active{background:#d4a05a;border-color:#c94c5e;box-shadow:0 0 8px rgba(255,200,87,.6);transform:scale(1.25);}
+  .navdot.active{background:#d4a05a;border-color:#d4a05a;box-shadow:0 0 8px rgba(212,160,90,.6);transform:scale(1.25);}
   .tab{display:none;width:100%;max-width:440px;box-sizing:border-box;}
   .tab.active{display:block;}
   .app h2{font-size:20px;margin:6px 0 14px;font-weight:800;}
@@ -736,7 +736,7 @@
     s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#a01d3a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
       const v=i*100/7;
-      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#a01d3a" stroke="#f0d0d8" stroke-width="1.5"/>`;
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#a01d3a" stroke="#f3e9e2" stroke-width="1.5"/>`;
       s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#a01d3a" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
     }
     // MAI AKTUALIS sarga pont (frac*100 helyen) - nagyobb, hogy latszodjon a "mai korlat"
