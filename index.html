@@ -54,8 +54,7 @@
   body{
     color:var(--txt);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    min-height:100vh; padding:20px 14px 40px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
-    position:relative; overflow-x:hidden;
+    min-height:100vh; padding:20px 14px 40px; position:relative; overflow-x:hidden;
     background:var(--bg-grad);
   }
   /* lebegő aurora blobok (blur) - ez ad életet az üvegnek */
@@ -65,7 +64,7 @@
   @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
   @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
   @keyframes float3{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
-  .app{width:100%;max-width:440px;position:relative;z-index:1;}
+  .app{width:100%;max-width:440px;margin:0 auto;position:relative;z-index:1;}
   .statusbar{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:18px;padding:0 2px;}
   .statusbar .right{display:flex;gap:8px;align-items:center;}
   .themebtn{background:var(--glass);border:1px solid var(--glass-border);color:var(--txt);width:28px;height:28px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:.2s;}
@@ -231,7 +230,7 @@
   .topnav{display:flex;gap:10px;justify-content:center;width:100%;max-width:440px;margin:10px auto 2px;padding:0 14px;box-sizing:border-box;}
   .navdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);padding:0;cursor:pointer;transition:.15s;}
   .navdot.active{background:#ffc857;border-color:#ffc857;box-shadow:0 0 8px rgba(255,200,87,.6);transform:scale(1.25);}
-  .tab{display:none;}
+  .tab{display:none;width:100%;max-width:440px;box-sizing:border-box;}
   .tab.active{display:block;}
   .app h2{font-size:20px;margin:6px 0 14px;font-weight:800;}
   /* HEATMAP */
