@@ -16,7 +16,7 @@
     --gold:#a01d3a; --gold-soft:#c94c5e;
     --green:#d4a05a; --green-soft:#e0b070; --green-box:rgba(212,160,90,.18); --teal:#c8954a;
     --purple:#8b5a2b; --purple-soft:#a0703a;
-    --red:#ff6b6b;
+    --red:#a01d3a;
     --glass:rgba(255,240,230,.05);
     --glass-strong:rgba(255,240,230,.08);
     --glass-border:rgba(255,230,210,.12);
@@ -146,7 +146,7 @@
   .seg{height:9px;border-radius:3px;background:var(--bar-future);margin:0 0 7px;width:100%;}
   .seg.done{background:var(--bar-done);} .seg.today{background:var(--bar-today);box-shadow:0 0 6px rgba(255,200,87,.6);}
   .seg.over{background:linear-gradient(90deg,#ff7676,#ff9a9a);box-shadow:0 0 6px rgba(255,118,118,.6);}
-  .seg.under{background:linear-gradient(90deg,#34d399,#6ee7b7);}
+  .seg.under{background:linear-gradient(90deg,#d4a05a,#e0b070);}
   .day .d{font-size:11px;color:var(--muted);font-weight:700;}
   .day.today .d{color:var(--gold);}
   .day .v{font-size:11px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;color:var(--txt);}
@@ -212,7 +212,7 @@
   .trendlbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .trendlbl span{color:var(--txt);}
   .trendtrack{position:relative;height:14px;border-radius:7px;overflow:hidden;
-    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#a01d3a 85%,#ff6b6b 100%);
+    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#a01d3a 85%,#a01d3a 100%);
     box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
   .trendmark{position:absolute;top:-3px;width:4px;height:20px;border-radius:2px;background:#fff;
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
@@ -230,7 +230,7 @@
   /* TOPNAV: kompakt potty navigacio (felul, kozepen) */
   .topnav{display:flex;gap:10px;justify-content:center;width:100%;max-width:440px;margin:10px auto 2px;padding:0 14px;box-sizing:border-box;}
   .navdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);padding:0;cursor:pointer;transition:.15s;}
-  .navdot.active{background:#ffc857;border-color:#c94c5e;box-shadow:0 0 8px rgba(255,200,87,.6);transform:scale(1.25);}
+  .navdot.active{background:#d4a05a;border-color:#c94c5e;box-shadow:0 0 8px rgba(255,200,87,.6);transform:scale(1.25);}
   .tab{display:none;width:100%;max-width:440px;box-sizing:border-box;}
   .tab.active{display:block;}
   .app h2{font-size:20px;margin:6px 0 14px;font-weight:800;}
@@ -252,7 +252,7 @@
 </style>
 </head>
 <body>
-<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#3a0d0d;color:#ff9f9f;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #ff6b6b;"></div>
+<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#2a1015;color:#f0c0c8;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #a01d3a;"></div>
 <div class="aurora a1"></div>
 <div class="aurora a2"></div>
 <div class="aurora a3"></div>
@@ -698,12 +698,12 @@
     // defs: gradient + glow szűrők
     s+=`<defs>
       <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ffc857" stop-opacity="0.30"/>
-        <stop offset="100%" stop-color="#ffc857" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#d4a05a" stop-opacity="0.30"/>
+        <stop offset="100%" stop-color="#d4a05a" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="realFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#34d399" stop-opacity="0.22"/>
-        <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#d4a05a" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#d4a05a" stop-opacity="0"/>
       </linearGradient>
       <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="3" result="b"/>
@@ -743,9 +743,9 @@
     if(c && typeof c.frac==="number"){
       const mx=X(c.frac*7), my=Y(c.frac*100);
       // fuggoleges vonalzar: a mai ponttol le a 0%-ig (hol tartasz most az idoben)
-      s+=`<line x1="${mx}" y1="${my}" x2="${mx}" y2="${y0}" stroke="#ffc857" stroke-width="1" stroke-dasharray="2 3" opacity=".4"/>`;
-      s+=`<circle cx="${mx}" cy="${my}" r="7.2" fill="none" stroke="#ffc857" stroke-width="2" opacity=".5"/>`;
-      s+=`<circle cx="${mx}" cy="${my}" r="5" fill="#ffc857" stroke="#fff3d6" stroke-width="2"/>`;
+      s+=`<line x1="${mx}" y1="${my}" x2="${mx}" y2="${y0}" stroke="#d4a05a" stroke-width="1" stroke-dasharray="2 3" opacity=".4"/>`;
+      s+=`<circle cx="${mx}" cy="${my}" r="7.2" fill="none" stroke="#d4a05a" stroke-width="2" opacity=".5"/>`;
+      s+=`<circle cx="${mx}" cy="${my}" r="5" fill="#d4a05a" stroke="#f3e9e2" stroke-width="2"/>`;
     }
     // valós napi gorbe: history -> ciklusnapi index szerint rendezve
     if(history && typeof history==="object"){
@@ -786,8 +786,8 @@
       // valós függőleges guide
       s+=`<line x1="${rx}" y1="${ry}" x2="${rx}" y2="${y0}" stroke="#e0b070" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
       // MA pulzáló halo
-      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#34d399" opacity=".25"><animate attributeName="r" values="6;11;6" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".30;.05;.30" dur="1.8s" repeatCount="indefinite"/></circle>`;
-      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#34d399" stroke="#0b0f1a" stroke-width="2" filter="url(#glow)"/>`;
+      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#d4a05a" opacity=".25"><animate attributeName="r" values="6;11;6" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".30;.05;.30" dur="1.8s" repeatCount="indefinite"/></circle>`;
+      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#d4a05a" stroke="#1c120c" stroke-width="2" filter="url(#glow)"/>`;
       // MA szoveg KIVESZVE az SVG-bol (ne takarja a grafikont) -> nem jelenik meg sehol
     }
     try {
