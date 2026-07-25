@@ -282,14 +282,14 @@
 
   <div class="card">
     <div class="hero">
-      <div class="big" id="bigPct">0,00<small>%</small></div>
-      <div class="sub" id="bigSub">a heti kvótából halmozottan</div>
+      <div class="big" id="bigPct">100,00<small>%</small></div>
+      <div class="sub" id="bigSub">a heti kvótából maradt (100%-ról indul)</div>
     </div>
 
     <div class="usagerow">
-      <span class="lbl"><span class="dot green"></span>Valós felhasználás</span>
+      <span class="lbl"><span class="dot green"></span>Maradék most</span>
       <span class="editwrap" id="editWrap" title="Kattints a szerkesztéshez">
-        <span class="valbox" id="realBox">0,00</span>
+        <span class="valbox" id="realBox">100,00</span>
         <input id="pctInput" type="number" inputmode="decimal" step="0.01" min="0" max="100" placeholder="%" class="editinp">
         <button id="saveBtn" class="savebtn">✓</button>
       </span>
@@ -304,14 +304,14 @@
   </div>
 
   <div class="card">
-    <div class="sectitle">Kumulatív felhasználás <span class="hint">terv (sárga) vs. valós (zöld)</span></div>
+    <div class="sectitle">Kumulatív felhasználás <span class="hint">terv (bordó) vs. maradék (arany)</span></div>
     <div class="chartwrap">
       <svg id="chart" viewBox="0 0 420 220" preserveAspectRatio="xMidYMid meet"></svg>
       <div class="resetbadge" id="resetBadge">—</div>
     </div>
     <div class="legend">
       <span><span class="dot" style="background:#a01d3a;box-shadow:0 0 6px #a01d3a"></span>lineáris terv</span>
-      <span><span class="dot green"></span>valós (napi + MA)</span>
+      <span><span class="dot green"></span>maradék (napi + MA)</span>
       <span style="color:var(--gold-soft)">■ RESET</span>
     </div>
     <div class="trendbar">
@@ -327,14 +327,14 @@
   <div class="card">
     <div class="circles">
       <div class="circ"><div class="ct">Napi terv</div><div class="cv" id="c1">—</div></div>
-      <div class="circ"><div class="ct">Valós ma</div><div class="cv" id="c2">—</div></div>
-      <div class="circ"><div class="ct" id="c3t">Várható vége</div><div class="cv" id="c3">—</div></div>
+      <div class="circ"><div class="ct">Maradék ma</div><div class="cv" id="c2">—</div></div>
+      <div class="circ"><div class="ct" id="c3t">Várható maradék</div><div class="cv" id="c3">—</div></div>
     </div>
   </div>
 
   <div class="card" id="historyCard">
     <div class="sectitle">Előzmények <span class="hint">lezárt ciklusok (utolsó 4)</span></div>
-    <div class="histlegend"><span><span class="dot gold"></span>ciklus vége %</span><span><span class="dot green"></span>átlag/nap</span></div>
+    <div class="histlegend"><span><span class="dot gold"></span>maradék a ciklus végén</span><span><span class="dot green"></span>átlag/nap fogyás</span></div>
     <div id="historyList" class="histlist"></div>
   </div>
 </div>
@@ -351,7 +351,7 @@
       <span><i class="hm none"></i> nincs adat</span>
     </div>
     <div id="heatmap" class="heatmap"></div>
-    <p class="hm-hint">A színek a napi valós fogyasztást hasonlítják az aznapi tervhez (100/7 ≈ 14,3%).</p>
+    <p class="hm-hint">A színek a napi maradékot mutatják a tervhez képest (100/7 ≈ 14,3% fogy naponta).</p>
   </div>
 </section>
 
@@ -420,6 +420,15 @@
   if(typeof state.anchor!=="number") state.anchor=2;
   if(typeof state.history!=="object" || state.history===null) state.history={};
   if(typeof state.notify!=="boolean") state.notify=false;
+  // === MIGRACIO: felhasznalt% -> maradek% (100-rol indul, 0-ra fut ki) ===
+  if(!state.vRemain){
+    if(typeof state.realPct==="number") state.realPct = Math.max(0,Math.min(100, 100 - state.realPct));
+    if(state.history && typeof state.history==="object"){
+      Object.keys(state.history).forEach(k=>{ state.history[k] = Math.max(0,Math.min(100, 100 - (state.history[k]||0))); });
+    }
+    state.vRemain = true;
+    save();
+  }
   function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("chatgpt_last_sync", String(Date.now())); syncBackup(); }
   // P1: auto-backup a Google Drive-ra (relay + cloudflared tunnel, Termux-on).
   // A tunnel URL valtozhat -> ha uj tunnel indul, frissitsd a BACKUP_URL-t.
@@ -491,9 +500,9 @@
     const elapsed = now - start;
     const dayIndex = Math.max(0, Math.min(6, Math.floor(elapsed / DAY_MS)));
     const frac = Math.max(0, Math.min(1, elapsed / (7*DAY_MS)));
-    const planned = frac * 100;
-    const real = (state.realPct==null) ? null : Math.max(0, Math.min(100, state.realPct));
-    const delta = (real==null) ? null : (real - planned);
+    const planned = (1 - frac) * 100;   // maradék a terv szerint (100%-ról indul)
+    const real = (state.realPct==null) ? null : Math.max(0, Math.min(100, state.realPct));  // maradék most
+    const delta = (real==null) ? null : (real - planned);  // + = tobb maradt a tervnel (jo)
     return {start,end,dayIndex,planned,real,delta,frac,aw};
   }
 
@@ -518,11 +527,11 @@
     } else {
       resetTxtEl.textContent = `Reset: ${rd}n ${rh}ó ${rm}p`;
     }
-    // main big = időarányos (ciklus eleje óta eltelt %)
-    const shown = c.frac * 100;
+    // main big = maradek (100% - eltelt %)
+    const shown = (1 - c.frac) * 100;
     animateBig(shown);
     const t0 = c.start.toLocaleString("hu-HU",{weekday:"short",hour:"2-digit",minute:"2-digit"});
-    document.getElementById("bigSub").textContent = `${t0} óta eltelt időarányos rész (percenként frissül)`;
+    document.getElementById("bigSub").textContent = `${t0} óta hátralévő (percenként frissül)`;
 
     document.getElementById("realBox").innerHTML = HF(c.real==null?0:c.real)+"<small>%</small>";
     const pc = document.getElementById("planChip");
@@ -530,12 +539,12 @@
     if(c.delta==null){
       pc.style.background="rgba(138,147,168,.15)"; pc.style.color="var(--muted)";
       pt.textContent="Nincs adat";
-    } else if(c.delta<=0){
+    } else if(c.delta>=0){   // tobb maradt a tervnel = jo (zold)
       pc.style.background="rgba(52,211,153,.14)"; pc.style.color="var(--green)";
-      pt.textContent=`Terv alatt ${HF(Math.abs(c.delta))}%`;
-    } else {
+      pt.textContent=`Terv felett ${HF(c.delta)}% maradék`;
+    } else {                  // kevesebb maradt = fogyó (bordó)
       pc.style.background="rgba(255,118,118,.16)"; pc.style.color="var(--red)";
-      pt.textContent=`Terv felett ${HF(c.delta)}%`;
+      pt.textContent=`Terv alatt ${HF(Math.abs(c.delta))}% maradék`;
     }
 
     // MA jelolo: dayIndex a mar eltelt teljes napok szama (0-tol, a reset utan).
@@ -556,58 +565,55 @@
       const w=(c.aw+1+i)%7;
       const d=document.createElement("div");
       d.className="day"+(i===maCycleIdx?" today":"");
-      const vTxt = (i+1)*100/7;  // terv szerinti cel aznap vegere
+      const vTxt = 100 - (i+1)*100/7;  // terv szerinti maradek aznap vegere (100%->0%)
       let segCls="seg";
       if(i<maCycleIdx) segCls+=" done";
       else if(i===maCycleIdx) segCls+=" today";
-      // tullepes szinezese: ha van valos adat es az > terv -> over (piros), < terv -> under (zold)
+      // szinezés: több maradék a tervnél = jó (zöld), kevesebb = fogyó (bordó)
       if(realByDay[i]!=null){
-        if(realByDay[i] > vTxt + 0.01) segCls+=" over";
-        else if(realByDay[i] < vTxt - 0.01) segCls+=" under";
+        if(realByDay[i] > vTxt + 0.01) segCls+=" under";   // több maradt -> zöld
+        else if(realByDay[i] < vTxt - 0.01) segCls+=" over"; // kevesebb maradt -> bordó
       }
       d.innerHTML=`<div class="${segCls}"></div><div class="d">${WDS[w]}</div><div class="v">${HF(vTxt)}%</div>`;
       grid.appendChild(d);
     }
 
-    // burn-rate: atlagos napi valos novekmeny a ciklusban, es a vege kivetitese
-    const todayReal = (c.real==null)?0:c.real;
-    const c1v = HF(100/7);                                   // napi terv %
-    const c2v = HF(todayReal);                               // valos ma %
-    // atlagos napi novekmeny: ha van history es >1 bejegyzes a ciklusban
+    // burn-rate: atlagos napi fogyas (maradek csokkenese), es a vege kivetitese
+    const todayReal = (c.real==null)?0:c.real;   // maradek most
+    const c1v = HF(100/7);                                   // napi terv fogyas %
+    const c2v = HF(todayReal);                               // maradek ma %
     const histKeys = Object.keys(state.history).filter(k=>{
       const p=k.split("-"); const d=new Date(+p[0],+p[1]-1,+p[2]); return d>=c.start;
     });
     let projEnd = todayReal, burnTxt="–";
     if(histKeys.length>=2){
-      const vals = histKeys.map(k=>state.history[k]).sort((a,b)=>a-b);
+      const vals = histKeys.map(k=>state.history[k]).sort((a,b)=>a-b);  // maradekok novekvoen (ido szerint csokkennek)
       const first=vals[0], last=vals[vals.length-1];
       const spanDays = Math.max(1, histKeys.length-1);
-      const perDay = (last-first)/spanDays;                  // atm napi novekmeny
+      const perDay = (first-last)/spanDays;                  // atm napi FOGYAS (pozitiv szam)
       const daysLeft = Math.max(0, Math.ceil((c.end-now)/DAY_MS));
-      projEnd = Math.max(0, Math.min(200, last + perDay*daysLeft));
-      burnTxt = "+"+HF(perDay)+"%/nap";
+      projEnd = Math.max(0, Math.min(200, last - perDay*daysLeft));   // maradek a vegen
+      burnTxt = HF(perDay)+"%/nap fogy";
     } else if(c.real!=null){
-      // csak 1 adatpont: linearis tervel vetitjuk (kovetkezo napra a terv szerinti novekmeny)
       const daysLeft = Math.max(0, Math.ceil((c.end-now)/DAY_MS));
-      projEnd = Math.max(0, Math.min(200, todayReal + (100/7)*daysLeft));
+      projEnd = Math.max(0, Math.min(200, todayReal - (100/7)*daysLeft));
     }
     document.getElementById("c1").textContent = c1v+"%";
     document.getElementById("c2").textContent = c2v+"%";
     const c3=document.getElementById("c3"); const c3t=document.getElementById("c3t");
     c3.textContent = HF(projEnd)+"%";
-    c3.style.color = (projEnd>100)? "var(--red)" : "var(--green)";
-    c3t.textContent = (projEnd>100)? "Várható vége ⚠" : "Várható vége";
-    c3.closest(".circ").classList.toggle("warn", projEnd>100);
-    // trend-előrejelzés sáv
+    c3.style.color = (projEnd>0)? "var(--green)" : "var(--red)";   // 0 ala esik = elfogyott
+    c3t.textContent = "Várható maradék";
+    // trend-előrejelzés sáv (maradek %)
     const tMark=document.getElementById("trendMark");
     const tTxt=document.getElementById("trendTxt");
     const pct=Math.max(0,Math.min(120,projEnd));
     if(tMark) tMark.style.left=(pct/120*100).toFixed(1)+"%";
-    const warnPct = (state.warnPct==null)? 85 : state.warnPct;
+    const warnPct = (state.warnPct==null)? 15 : state.warnPct;  // 15% alatt maradek = veszely
     if(tTxt){
-      if(projEnd>100){ tTxt.textContent=`Veszély: ${HF(projEnd)}% (túllépés)`; tTxt.style.color="var(--red)"; notifyWarn(projEnd, c.start); }
-      else if(projEnd>warnPct){ tTxt.textContent=`Határon: ${HF(projEnd)}% (${warnPct}% felett)`; tTxt.style.color="var(--gold)"; }
-      else { tTxt.textContent=`Biztos: ${HF(projEnd)}%`; tTxt.style.color="var(--green)"; }
+      if(projEnd < warnPct){ tTxt.textContent=`Veszély: ${HF(projEnd)}% maradék (kevés)`; tTxt.style.color="var(--red)"; notifyWarn(projEnd, c.start); }
+      else if(projEnd < warnPct*2){ tTxt.textContent=`Határon: ${HF(projEnd)}% maradék (${warnPct}% alatt)`; tTxt.style.color="var(--gold)"; }
+      else { tTxt.textContent=`Biztos: ${HF(projEnd)}% maradék`; tTxt.style.color="var(--green)"; }
     }
 
     // reset badge: utolso 1 oraban PERCBEN, <24 oraban ora/formaban, utana nap
@@ -682,7 +688,7 @@
     if(sameCycle && (now-lastWarnTs) < 2*3600*1000) return;
     try{
       new Notification("⚠️ ChatGPT kvóta veszély", {
-        body:`Várható vége: ${HF(projEnd)}% — túllépés várható! (terv helyett kevesebbel gazdálkodj)`,
+        body:`Várható maradék: ${HF(projEnd)}% — kevés kvóta maradt! (kevesebbel gazdálkodj, mint a terv)`,
         tag:"chatgpt-veszely"
       });
       lastWarnCycle = cycleStart? cycleStart.getTime() : null;
@@ -730,21 +736,21 @@
       const anc = (i===7) ? "end" : "middle";
       s += `<text x="${X(i)}" y="${H-8}" fill="#6b7488" font-size="9" text-anchor="${anc}">${XL[i]}</text>`;
     }
-    // planned line coords (8 pont)
+    // planned line coords (8 pont): 100%-ról (bal felső) 0%-ra (jobb alsó) - maradék
     let pl="";
-    for(let i=0;i<8;i++){ pl+=(i?" L":"M")+X(i)+" "+Y(i*100/7); }
-    // kitöltés a terv-görbe alatt
-    s+=`<path d="${pl} L ${X(7)} ${y0} L ${X(0)} ${y0} Z" fill="url(#fillGrad)"/>`;
+    for(let i=0;i<8;i++){ pl+=(i?" L":"M")+X(i)+" "+Y(100 - i*100/7); }
+    // kitöltés a terv-görbe FELETT (maradék terület, 100%-tól a görbéig)
+    s+=`<path d="${pl} L ${X(7)} ${y1} L ${X(0)} ${y1} Z" fill="url(#fillGrad)"/>`;
     // terv vonal (glow nelkul, hogy Androidon is latszodjon) + animacio
     s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#a01d3a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
-      const v=i*100/7;
+      const v=100 - i*100/7;
       s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#a01d3a" stroke="#f3e9e2" stroke-width="1.5"/>`;
       s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#a01d3a" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
     }
-    // MAI AKTUALIS sarga pont (frac*100 helyen) - nagyobb, hogy latszodjon a "mai korlat"
+    // MAI AKTUALIS pont: maradek = 100 - frac*100 helyen
     if(c && typeof c.frac==="number"){
-      const mx=X(c.frac*7), my=Y(c.frac*100);
+      const mx=X(c.frac*7), my=Y(100 - c.frac*100);
       // fuggoleges vonalzar: a mai ponttol le a 0%-ig (hol tartasz most az idoben)
       s+=`<line x1="${mx}" y1="${my}" x2="${mx}" y2="${y0}" stroke="#d4a05a" stroke-width="1" stroke-dasharray="2 3" opacity=".4"/>`;
       s+=`<circle cx="${mx}" cy="${my}" r="7.2" fill="none" stroke="#d4a05a" stroke-width="2" opacity=".5"/>`;
