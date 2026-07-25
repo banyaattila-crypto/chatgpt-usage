@@ -227,11 +227,10 @@
   @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(52,211,153,.0);}30%{box-shadow:0 0 0 6px rgba(52,211,153,.5);}100%{box-shadow:0 0 0 0 rgba(52,211,153,0);}}
   .reset-flash{animation:resetFlash 1.6s ease-out 1;}
   @keyframes resetPop{0%{transform:scale(1);}40%{transform:scale(1.06);}100%{transform:scale(1);}}
-  .reset-pop{animation:resetPop .9s cubic-bezier(.34,1.56,.64,1) 1;}
-  /* TOPNAV menü + tab-ok */
-  .topnav{display:flex;gap:6px;width:100%;max-width:440px;margin:14px auto 4px;padding:0 14px;box-sizing:border-box;}
-  .navbtn{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--muted);font:600 12px/1.1 sans-serif;padding:9px 2px;border-radius:10px;cursor:pointer;transition:.15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .navbtn.active{background:rgba(255,200,87,.18);border-color:rgba(255,200,87,.5);color:#ffc857;}
+  /* TOPNAV: kompakt potty navigacio (felul, kozepen) */
+  .topnav{display:flex;gap:10px;justify-content:center;width:100%;max-width:440px;margin:10px auto 2px;padding:0 14px;box-sizing:border-box;}
+  .navdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);padding:0;cursor:pointer;transition:.15s;}
+  .navdot.active{background:#ffc857;border-color:#ffc857;box-shadow:0 0 8px rgba(255,200,87,.6);transform:scale(1.25);}
   .tab{display:none;}
   .tab.active{display:block;}
   .app h2{font-size:20px;margin:6px 0 14px;font-weight:800;}
@@ -258,9 +257,9 @@
 <div class="aurora a2"></div>
 <div class="aurora a3"></div>
 <div class="topnav">
-  <button class="navbtn active" data-tab="overview">Áttekintés</button>
-  <button class="navbtn" data-tab="calendar">Naptár</button>
-  <button class="navbtn" data-tab="settings">Beállítások</button>
+  <button class="navdot active" data-tab="overview" title="Áttekintés"></button>
+  <button class="navdot" data-tab="calendar" title="Naptár"></button>
+  <button class="navdot" data-tab="settings" title="Beállítások"></button>
 </div>
 
 <section id="tab-overview" class="tab active">
@@ -1032,7 +1031,7 @@
   }
 
   // === TOPNAV tab valtas ===
-  const navBtns = document.querySelectorAll(".navbtn");
+  const navBtns = document.querySelectorAll(".navdot");
   navBtns.forEach(btn=>{
     btn.addEventListener("click",()=>{
       const tab = btn.getAttribute("data-tab");
