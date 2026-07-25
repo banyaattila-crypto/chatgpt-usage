@@ -433,6 +433,14 @@
     // kozvetlen mentes (save() itt meg nem hivhato: backupBusy TDZ miatt), a kovetkezo render() ugyis ment
     localStorage.setItem(STORE, JSON.stringify(state));
   }
+  // === MIGRACIO: anchor -> Vasarnap (0), ha meg nem volt atallitva ===
+  // A felhasznalo kerte: a ciklus vasarnapon induljon. A regi mentett anchor (pl. Kedd=2)
+  // megmaradt volna, ezert egyszeri flaggel atvisszuk 0-ra.
+  if(!state.vAnchorVasarnap){
+    state.anchor = 0;   // 0 = Vasarnap
+    state.vAnchorVasarnap = true;
+    localStorage.setItem(STORE, JSON.stringify(state));
+  }
   function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("chatgpt_last_sync", String(Date.now())); syncBackup(); }
   // P1: auto-backup a Google Drive-ra (relay + cloudflared tunnel, Termux-on).
   // A tunnel URL valtozhat -> ha uj tunnel indul, frissitsd a BACKUP_URL-t.
