@@ -13,7 +13,7 @@
 <style>
   :root{
     --bg:#140d0a; --txt:#f3e9e2; --muted:#a89080;
-    --gold:#b83b4d; --gold-soft:#c94c5e;
+    --gold:#a01d3a; --gold-soft:#c94c5e;
     --green:#d4a05a; --green-soft:#e0b070; --green-box:rgba(212,160,90,.18); --teal:#c8954a;
     --purple:#8b5a2b; --purple-soft:#a0703a;
     --red:#ff6b6b;
@@ -21,7 +21,7 @@
     --glass-strong:rgba(255,240,230,.08);
     --glass-border:rgba(255,230,210,.12);
     --glass-hi:rgba(255,235,220,.45);
-    --bar-done:rgba(255,240,230,.18); --bar-today:#b83b4d; --bar-future:rgba(255,240,230,.06);
+    --bar-done:rgba(255,240,230,.18); --bar-today:#a01d3a; --bar-future:rgba(255,240,230,.06);
     --bg-grad:
       radial-gradient(900px 520px at 78% -8%,  #2a1610 0%, transparent 60%),
       radial-gradient(720px 480px at 12% 8%,   #3a1420 0%, transparent 58%),
@@ -60,7 +60,7 @@
   }
   /* lebegő aurora blobok (blur) - ez ad életet az üvegnek */
   .aurora{position:fixed;z-index:0;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none;mix-blend-mode:screen;}
-  .a2{width:300px;height:300px;right:-60px;top:30%;background:radial-gradient(circle,#b83b4d 0%,transparent 70%);animation:float2 18s ease-in-out infinite;}
+  .a2{width:300px;height:300px;right:-60px;top:30%;background:radial-gradient(circle,#a01d3a 0%,transparent 70%);animation:float2 18s ease-in-out infinite;}
   .a3{width:260px;height:260px;left:30%;bottom:-40px;background:radial-gradient(circle,#d4a05a 0%,transparent 70%);animation:float3 16s ease-in-out infinite;}
   @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
   @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
@@ -78,12 +78,12 @@
   .dot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);} .dot.green{background:var(--green);box-shadow:0 0 6px var(--green);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
   .eyebrow{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;margin-bottom:6px;}
   h1{font-size:34px;font-weight:900;letter-spacing:-.01em;line-height:1.05;font-family:"Fraunces",Georgia,serif;
-    background:linear-gradient(100deg,#b83b4d 0%,#fff 35%,#d4a05a 50%,#fff 65%,#b83b4d 100%);
-    background-size:200% auto;
+    background:linear-gradient(100deg,#a01d3a 0%,#fff 42%,#d4a05a 50%,#fff 58%,#a01d3a 100%);
+    background-size:120% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
-    filter:drop-shadow(0 2px 10px rgba(255,200,87,.45));
-    animation:shine 4s linear infinite;}
+    filter:drop-shadow(0 2px 10px rgba(255,200,87,.25));
+    animation:shine 9s linear infinite;}
   .titlefont{font-family:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;letter-spacing:-.01em;}
   .daterange{color:var(--muted);font-size:14px;margin-top:4px;margin-bottom:14px;}
   .tagrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
@@ -101,14 +101,14 @@
   .ma-label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;}
   .hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 4px;}
   .big{font-size:64px;font-weight:900;line-height:1;margin:0;font-variant-numeric:tabular-nums;font-family:"Fraunces",Georgia,serif;letter-spacing:-.01em;
-    background:linear-gradient(100deg,#fff 0%,#b83b4d 40%,#d4a05a 55%,#fff 100%);
-    background-size:200% auto;
+    background:linear-gradient(100deg,#fff 0%,#a01d3a 44%,#d4a05a 52%,#fff 100%);
+    background-size:120% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
-    filter:drop-shadow(0 2px 12px rgba(255,200,87,.5));
-    animation:shine 3.5s linear infinite;
+    filter:drop-shadow(0 2px 12px rgba(255,200,87,.28));
+    animation:shine 8s linear infinite;
   }
-  @keyframes shine{to{background-position:200% center;}}
+  @keyframes shine{to{background-position:240% center;}}
   .big small{font-size:32px;font-weight:800;font-family:"Fraunces",Georgia,serif;letter-spacing:0;}
   .sub{color:var(--muted);font-size:13px;}
   .usagerow{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:10px;}
@@ -212,7 +212,7 @@
   .trendlbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .trendlbl span{color:var(--txt);}
   .trendtrack{position:relative;height:14px;border-radius:7px;overflow:hidden;
-    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#b83b4d 85%,#ff6b6b 100%);
+    background:linear-gradient(90deg,#5a8a3a 0%,#c8954a 35%,#d4a05a 65%,#a01d3a 85%,#ff6b6b 100%);
     box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
   .trendmark{position:absolute;top:-3px;width:4px;height:20px;border-radius:2px;background:#fff;
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
@@ -222,7 +222,7 @@
   #updateBar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:center;gap:14px;
     background:linear-gradient(90deg,#2a1410,#3a1c18);border-top:1px solid rgba(184,59,77,.4);
     padding:10px 16px;font-size:13px;color:#c94c5e;font-weight:700;backdrop-filter:blur(8px);}
-  #updateBar button{background:#b83b4d;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
+  #updateBar button{background:#a01d3a;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
   /* 4. reset-pillanat animacio (uj ciklus) */
   @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(52,211,153,.0);}30%{box-shadow:0 0 0 6px rgba(52,211,153,.5);}100%{box-shadow:0 0 0 0 rgba(52,211,153,0);}}
   .reset-flash{animation:resetFlash 1.6s ease-out 1;}
@@ -308,7 +308,7 @@
       <div class="resetbadge" id="resetBadge">—</div>
     </div>
     <div class="legend">
-      <span><span class="dot" style="background:#b83b4d;box-shadow:0 0 6px #b83b4d"></span>lineáris terv</span>
+      <span><span class="dot" style="background:#a01d3a;box-shadow:0 0 6px #a01d3a"></span>lineáris terv</span>
       <span><span class="dot green"></span>valós (napi + MA)</span>
       <span style="color:var(--gold-soft)">■ RESET</span>
     </div>
@@ -733,11 +733,11 @@
     // kitöltés a terv-görbe alatt
     s+=`<path d="${pl} L ${X(7)} ${y0} L ${X(0)} ${y0} Z" fill="url(#fillGrad)"/>`;
     // terv vonal (glow nelkul, hogy Androidon is latszodjon) + animacio
-    s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#b83b4d" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
+    s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#a01d3a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
       const v=i*100/7;
-      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#b83b4d" stroke="#f0d0d8" stroke-width="1.5"/>`;
-      s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#b83b4d" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="5" fill="#a01d3a" stroke="#f0d0d8" stroke-width="1.5"/>`;
+      s+=`<text x="${X(i)}" y="${Y(v)-11}" fill="#a01d3a" font-size="8" font-weight="700" text-anchor="middle" opacity=".9">${HF(v)}</text>`;
     }
     // MAI AKTUALIS sarga pont (frac*100 helyen) - nagyobb, hogy latszodjon a "mai korlat"
     if(c && typeof c.frac==="number"){
@@ -820,7 +820,7 @@
     bubblesGroup.setAttribute("id","bubbles");
     bubblePts = [];
     const COLORS = [
-      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#b83b4d" },
+      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#a01d3a" },
       { n: 8,  r: 1.8, base: 0.065, op: 0.45, color: "#d4a05a" },
       { n: 12, r: 1.5, base: 0.105, op: 0.40, color: "#8b5a2b" },
     ];
