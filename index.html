@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ChatGPT Usage · Heti ciklus</title>
-<meta name="theme-color" content="#0a0604">
+<meta name="theme-color" content="#05060f">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,47 +12,47 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:opsz,wght@9..144,900&family=Geist:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* PREMIUM OBSIDIAN + GOLD paletta - fontok ertintetlenek */
-    --bg:#0a0604; --txt:#f5ece2; --muted:#9a8b7c;
-    --gold:#d4a05a; --gold-soft:#e0b070; --gold-deep:#a8742f;
-    --accent:#a01d3a;            /* bordó csak veszélyre */
-    --good:#d4a05a; --good-soft:#e0b070; --good-box:rgba(212,160,90,.16);
-    --teal:#c8954a;
-    --purple:#8b5a2b; --purple-soft:#a0703a;
-    --red:#a01d3a;
-    --glass:rgba(255,240,225,.045);
-    --glass-strong:rgba(255,240,225,.07);
-    --glass-border:rgba(255,225,195,.13);
-    --glass-hi:rgba(255,235,215,.5);
-    --bar-done:rgba(212,160,90,.22); --bar-today:#d4a05a; --bar-future:rgba(255,240,225,.05);
+    /* PREMIUM MIDNIGHT CIAN/LILA - teljesen uj paletta, barna/bordo/arany NELKUL */
+    --bg:#05060f; --txt:#eaf2ff; --muted:#7d8bb0;
+    --cyan:#22d3ee; --cyan-soft:#67e8f9; --cyan-deep:#0e7490;
+    --violet:#a78bfa; --violet-soft:#c4b5fd;
+    --accent:#f43f5e;            /* rosas-piros csak veszelyre (nem bordó) */
+    --good:#22d3ee; --good-soft:#67e8f9; --good-box:rgba(34,211,238,.16);
+    --teal:#2dd4bf;
+    --red:#f43f5e;
+    --glass:rgba(255,255,255,.04);
+    --glass-strong:rgba(255,255,255,.06);
+    --glass-border:rgba(120,160,255,.14);
+    --glass-hi:rgba(180,210,255,.5);
+    --bar-done:rgba(34,211,238,.22); --bar-today:#22d3ee; --bar-future:rgba(255,255,255,.05);
     --bg-grad:
-      radial-gradient(900px 540px at 80% -12%, rgba(212,160,90,.42) 0%, transparent 56%),
-      radial-gradient(760px 520px at 6% 10%,   rgba(160,29,58,.22) 0%, transparent 54%),
-      radial-gradient(880px 680px at 92% 106%, rgba(90,55,28,.55) 0%, transparent 60%),
-      linear-gradient(160deg,#060302 0%,#120a06 55%,#060302 100%);
+      radial-gradient(900px 560px at 82% -14%, rgba(34,211,238,.28) 0%, transparent 56%),
+      radial-gradient(760px 540px at 6% 8%,    rgba(167,139,250,.22) 0%, transparent 54%),
+      radial-gradient(880px 700px at 92% 108%, rgba(14,116,144,.35) 0%, transparent 60%),
+      linear-gradient(160deg,#05060f 0%,#0a0f1f 55%,#05060f 100%);
   }
   /* TEMA: sotet */
   html[data-theme="dark"]{
-    --bg-grad:linear-gradient(160deg,#060810 0%,#0a1020 55%,#060810 100%);
-    --glass:rgba(255,255,255,.04);
-    --glass-strong:rgba(255,255,255,.06);
-    --glass-border:rgba(255,255,255,.09);
+    --bg-grad:linear-gradient(160deg,#04050c 0%,#080c18 55%,#04050c 100%);
+    --glass:rgba(255,255,255,.035);
+    --glass-strong:rgba(255,255,255,.05);
+    --glass-border:rgba(120,160,255,.12);
   }
   html[data-theme="dark"] .aurora{display:none;}
   /* TEMA: napfeny (vilagos) */
   html[data-theme="light"]{
-    --txt:#1c1814; --muted:#6a5d4e;
-    --bg-grad:linear-gradient(160deg,#f3ece2 0%,#e8dccb 60%,#f3ece2 100%);
+    --txt:#0c1226; --muted:#5a6688;
+    --bg-grad:linear-gradient(160deg,#eef3ff 0%,#dde6fb 60%,#eef3ff 100%);
     --glass:rgba(255,255,255,.5);
     --glass-strong:rgba(255,255,255,.66);
-    --glass-border:rgba(120,80,40,.16);
+    --glass-border:rgba(40,80,160,.16);
     --glass-hi:rgba(255,255,255,.9);
-    --bar-done:rgba(120,80,40,.18); --bar-future:rgba(120,80,40,.06);
+    --bar-done:rgba(40,80,160,.18); --bar-future:rgba(40,80,160,.06);
   }
   html[data-theme="light"] .aurora{display:none;}
-  html[data-theme="light"] .card{box-shadow:0 12px 40px rgba(120,80,40,.18), inset 0 1px 0 rgba(255,255,255,.6);}
-  html[data-theme="light"] h1{filter:drop-shadow(0 2px 8px rgba(212,160,90,.4));}
-  html[data-theme="light"] .big{filter:drop-shadow(0 2px 10px rgba(212,160,90,.4));}
+  html[data-theme="light"] .card{box-shadow:0 12px 40px rgba(40,80,160,.18), inset 0 1px 0 rgba(255,255,255,.6);}
+  html[data-theme="light"] h1{filter:drop-shadow(0 2px 8px rgba(34,211,238,.4));}
+  html[data-theme="light"] .big{filter:drop-shadow(0 2px 10px rgba(34,211,238,.4));}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html,body{min-height:100%;}
   body{
@@ -63,8 +63,8 @@
   }
   /* lebegő aurora blobok (blur) - ez ad életet az üvegnek */
   .aurora{position:fixed;z-index:0;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none;mix-blend-mode:screen;}
-  .a2{width:300px;height:300px;right:-60px;top:30%;background:radial-gradient(circle,#d4a05a 0%,transparent 70%);animation:float2 18s ease-in-out infinite;}
-  .a3{width:260px;height:260px;left:30%;bottom:-40px;background:radial-gradient(circle,#d4a05a 0%,transparent 70%);animation:float3 16s ease-in-out infinite;}
+  .a2{width:300px;height:300px;right:-60px;top:30%;background:radial-gradient(circle,#a78bfa 0%,transparent 70%);animation:float2 18s ease-in-out infinite;}
+  .a3{width:260px;height:260px;left:30%;bottom:-40px;background:radial-gradient(circle,#a78bfa 0%,transparent 70%);animation:float3 16s ease-in-out infinite;}
   @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
   @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
   @keyframes float3{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
@@ -75,29 +75,29 @@
   .themebtn:active{transform:scale(.9);}
   .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;
     background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
-  .chip.reset{color:var(--gold);}
+  .chip.reset{color:var(--cyan);}
   .chip.plan{color:var(--good);}
   .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
-  .dot.gold{background:var(--gold);box-shadow:0 0 6px var(--gold);} .dot.green{background:var(--good);box-shadow:0 0 6px var(--good);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
-  .eyebrow{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.14em;margin-bottom:6px;}
+  .dot.gold{background:var(--cyan);box-shadow:0 0 6px var(--cyan);} .dot.green{background:var(--good);box-shadow:0 0 6px var(--good);} .dot.red{background:var(--red);box-shadow:0 0 6px var(--red);}
+  .eyebrow{color:var(--cyan);font-size:12px;font-weight:700;letter-spacing:.14em;margin-bottom:6px;}
   h1{font-size:34px;font-weight:900;letter-spacing:-.01em;line-height:1.05;font-family:"Fraunces",Georgia,serif;
-    background:linear-gradient(100deg,#f3e9e2 0%,#fff 42%,#d4a05a 50%,#fff 58%,#f3e9e2 100%);
+    background:linear-gradient(100deg,#eaf2ff 0%,#fff 42%,#22d3ee 50%,#fff 58%,#eaf2ff 100%);
     background-size:120% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
-    text-shadow:1px 1px 0 #7a5630, 1px 2px 5px rgba(0,0,0,.3);
-    filter:drop-shadow(0 1px 6px rgba(212,160,90,.2));
+    text-shadow:1px 1px 0 #0e7490, 1px 2px 5px rgba(0,0,0,.4);
+    filter:drop-shadow(0 1px 6px rgba(34,211,238,.3));
     animation:shine 9s linear infinite;}
   .titlefont{font-family:"Geist",-apple-system,BlinkMacSystemFont,sans-serif;font-weight:800;letter-spacing:-.01em;}
   .daterange{color:var(--muted);font-size:14px;margin-top:4px;margin-bottom:14px;}
   .tagrow{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
   .card{
     border-radius:22px;padding:14px;margin-bottom:16px;overflow:hidden;position:relative;
-    background:linear-gradient(160deg, rgba(255,240,225,.10) 0%, var(--glass) 40%);
+    background:linear-gradient(160deg, rgba(120,160,255,.10) 0%, var(--glass) 40%);
     border:1px solid var(--glass-border);
     backdrop-filter:blur(22px) saturate(150%);
     -webkit-backdrop-filter:blur(22px) saturate(150%);
-    box-shadow:0 16px 48px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,235,215,.18), inset 0 0 24px rgba(212,160,90,.04);
+    box-shadow:0 16px 48px rgba(0,0,0,.6), inset 0 1px 0 rgba(180,210,255,.18), inset 0 0 24px rgba(34,211,238,.05);
   }
   /* felső fényes szegély (highlight) az üvegen */
   .card::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;
@@ -105,12 +105,12 @@
   .ma-label{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;}
   .hero{display:flex;flex-direction:column;align-items:center;margin:6px 0 4px;}
   .big{font-size:64px;font-weight:900;line-height:1;margin:0;font-variant-numeric:tabular-nums;font-family:"Fraunces",Georgia,serif;letter-spacing:-.01em;
-    background:linear-gradient(100deg,#f3e9e2 0%,#d4a05a 44%,#e0b070 52%,#f3e9e2 100%);
+    background:linear-gradient(100deg,#eaf2ff 0%,#22d3ee 44%,#a78bfa 52%,#eaf2ff 100%);
     background-size:120% auto;
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;color:transparent;
-    text-shadow:1px 1px 0 #7a5630, 2px 3px 8px rgba(0,0,0,.35);
-    filter:drop-shadow(0 1px 8px rgba(212,160,90,.22));
+    text-shadow:1px 1px 0 #0e7490, 2px 3px 8px rgba(0,0,0,.45);
+    filter:drop-shadow(0 1px 8px rgba(34,211,238,.35));
     animation:shine 8s linear infinite;
   }
   @keyframes shine{to{background-position:240% center;}}
@@ -120,9 +120,9 @@
   .usagerow .lbl{font-size:13px;color:var(--txt);display:flex;align-items:center;gap:7px;}
   .editwrap{display:inline-flex;align-items:center;gap:6px;position:relative;cursor:text;}
   .valbox{color:var(--good);font-weight:800;font-size:18px;padding:8px 12px;border-radius:12px;font-variant-numeric:tabular-nums;transition:.2s;
-    background:var(--good-box);border:1px solid rgba(212,160,90,.35);backdrop-filter:blur(8px);}
+    background:var(--good-box);border:1px solid rgba(167,139,250,.35);backdrop-filter:blur(8px);}
   .valbox small{font-size:12px;font-weight:700;opacity:.8;}
-  .editwrap:hover .valbox{outline:1px dashed rgba(212,160,90,.5);}
+  .editwrap:hover .valbox{outline:1px dashed rgba(167,139,250,.5);}
   .editinp{
     width:0;opacity:0;padding:0;border:none;background:transparent;color:var(--good);
     font-weight:800;font-size:18px;transition:.25s;font-variant-numeric:tabular-nums;
@@ -143,17 +143,17 @@
     border-radius:9px;padding:6px 9px;font-size:11px;font-weight:700;cursor:pointer;transition:.15s;
     backdrop-filter:blur(8px);
   }
-  .anchorbts button.active{background:rgba(212,160,90,.20);border-color:rgba(212,160,90,.5);color:var(--good);}
+  .anchorbts button.active{background:rgba(167,139,250,.20);border-color:rgba(167,139,250,.5);color:var(--good);}
   .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:18px;}
   .day{text-align:center;padding:6px 2px 8px;border-radius:10px;display:flex;flex-direction:column;align-items:stretch;
     background:var(--glass-strong);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);}
-  .day.today{background:rgba(212,160,90,.16);outline:1px solid rgba(212,160,90,.45);}
+  .day.today{background:rgba(167,139,250,.16);outline:1px solid rgba(167,139,250,.45);}
   .seg{height:9px;border-radius:3px;background:var(--bar-future);margin:0 0 7px;width:100%;}
-  .seg.done{background:var(--bar-done);} .seg.today{background:var(--bar-today);box-shadow:0 0 6px rgba(212,160,90,.6);}
-  .seg.over{background:linear-gradient(90deg,#a01d3a,#7a1230);box-shadow:0 0 6px rgba(160,29,58,.6);}
-  .seg.under{background:linear-gradient(90deg,#d4a05a,#e0b070);}
+  .seg.done{background:var(--bar-done);} .seg.today{background:var(--bar-today);box-shadow:0 0 6px rgba(167,139,250,.6);}
+  .seg.over{background:linear-gradient(90deg,#22d3ee,#0e7490);box-shadow:0 0 6px rgba(34,211,238,.6);}
+  .seg.under{background:linear-gradient(90deg,#a78bfa,#c4b5fd);}
   .day .d{font-size:11px;color:var(--muted);font-weight:700;}
-  .day.today .d{color:var(--gold);}
+  .day.today .d{color:var(--cyan);}
   .day .v{font-size:11px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;color:var(--txt);}
   .sectitle{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;}
   .sectitle .hint{color:var(--muted);font-size:12px;font-weight:500;}
@@ -167,9 +167,9 @@
   @keyframes drawLine{ to{ stroke-dashoffset:0; } }
   .resetbadge{
     position:absolute;top:6px;left:auto;right:8px;
-    color:var(--gold);
+    color:var(--cyan);
     font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.02em;
-    background:rgba(212,160,90,.12);border:1px solid rgba(212,160,90,.35);
+    background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.35);
     backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   }
   .circles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
@@ -202,14 +202,14 @@
     box-shadow:
       0 1px 3px rgba(0,0,0,.30),
       inset 0 2px 5px rgba(0,0,0,.30);
-    border-color:var(--gold);}
+    border-color:var(--cyan);}
   .histlegend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-bottom:8px;}
   .histlegend span{display:inline-flex;align-items:center;gap:5px;}
   .histlist{display:flex;flex-direction:column;gap:7px;}
   .histrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 10px;border-radius:10px;background:var(--glass-strong);border:1px solid var(--glass-border);}
   .histrow .hl-range{color:var(--muted);font-weight:600;}
   .histrow .hl-vals{display:flex;gap:12px;font-variant-numeric:tabular-nums;font-weight:700;}
-  .histrow .hl-vals .end{color:var(--gold);}
+  .histrow .hl-vals .end{color:var(--cyan);}
   .histrow .hl-vals .avg{color:var(--good);}
   .histrow.empty{justify-content:center;color:var(--muted);font-weight:500;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
@@ -217,7 +217,7 @@
   .trendlbl{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .trendlbl span{color:var(--txt);}
   .trendtrack{position:relative;height:14px;border-radius:7px;overflow:hidden;
-    background:linear-gradient(90deg,#a01d3a 0%,#a8742f 30%,#d4a05a 65%,#e0b070 100%)
+    background:linear-gradient(90deg,#22d3ee 0%,#7c3aed 30%,#a78bfa 65%,#c4b5fd 100%)
     box-shadow:inset 0 1px 3px rgba(0,0,0,.4);}
   .trendmark{position:absolute;top:-3px;width:4px;height:20px;border-radius:2px;background:#fff;
     box-shadow:0 0 6px rgba(255,255,255,.8),0 1px 3px rgba(0,0,0,.5);transform:translateX(-50%);
@@ -225,17 +225,17 @@
   .trendscale{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;font-weight:600;}
   /* 3. frissites sav (uj verzio) */
   #updateBar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:center;gap:14px;
-    background:linear-gradient(90deg,#1c0f0a,#2a1810);border-top:1px solid rgba(212,160,90,.35);
-    padding:10px 16px;font-size:13px;color:#e0b070;font-weight:700;backdrop-filter:blur(8px);}
-  #updateBar button{background:#a8742f;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
+    background:linear-gradient(90deg,#1c0f0a,#2a1810);border-top:1px solid rgba(167,139,250,.35);
+    padding:10px 16px;font-size:13px;color:#c4b5fd;font-weight:700;backdrop-filter:blur(8px);}
+  #updateBar button{background:#7c3aed;color:#f3e9e2;border:none;border-radius:8px;padding:6px 14px;font-weight:800;cursor:pointer;font-size:13px;}
   /* 4. reset-pillanat animacio (uj ciklus) */
-  @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(212,160,90,.0);}30%{box-shadow:0 0 0 6px rgba(212,160,90,.5);}100%{box-shadow:0 0 0 0 rgba(212,160,90,0);}}
+  @keyframes resetFlash{0%{box-shadow:0 0 0 0 rgba(167,139,250,.0);}30%{box-shadow:0 0 0 6px rgba(167,139,250,.5);}100%{box-shadow:0 0 0 0 rgba(167,139,250,0);}}
   .reset-flash{animation:resetFlash 1.6s ease-out 1;}
   @keyframes resetPop{0%{transform:scale(1);}40%{transform:scale(1.06);}100%{transform:scale(1);}}
   /* TOPNAV: kompakt potty navigacio (felul, kozepen) */
   .topnav{display:flex;gap:10px;justify-content:center;width:100%;max-width:440px;margin:10px auto 2px;padding:0 14px;box-sizing:border-box;}
   .navdot{width:11px;height:11px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);padding:0;cursor:pointer;transition:.15s;}
-  .navdot.active{background:#d4a05a;border-color:#d4a05a;box-shadow:0 0 8px rgba(212,160,90,.6);transform:scale(1.25);}
+  .navdot.active{background:#a78bfa;border-color:#a78bfa;box-shadow:0 0 8px rgba(167,139,250,.6);transform:scale(1.25);}
   .tab{display:none;width:100%;max-width:440px;box-sizing:border-box;}
   .tab.active{display:block;}
   .app h2{font-size:20px;margin:6px 0 14px;font-weight:800;}
@@ -243,9 +243,9 @@
   .heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:100%;max-width:440px;margin:0 auto;box-sizing:border-box;}
   .hm-cell{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font:600 10px/1 sans-serif;color:rgba(255,255,255,.85);position:relative;}
   .hm-cell .dlab{opacity:.85;}
-  .hm.over{background:rgba(160,29,58,.85);}
-  .hm.warn{background:rgba(212,160,90,.8);}
-  .hm.under{background:rgba(212,160,90,.7);}
+  .hm.over{background:rgba(34,211,238,.85);}
+  .hm.warn{background:rgba(167,139,250,.8);}
+  .hm.under{background:rgba(167,139,250,.7);}
   .hm.none{background:rgba(255,255,255,.07);color:var(--muted);}
   .heatmap-legend{display:flex;flex-wrap:wrap;gap:10px 12px;justify-content:center;max-width:440px;margin:0 auto 14px;font:12px sans-serif;color:var(--muted);box-sizing:border-box;}
   .heatmap-legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px;}
@@ -257,7 +257,7 @@
 </style>
 </head>
 <body>
-<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#1c0f0a;color:#e0b070;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #a01d3a;"></div>
+<div id="errPanel" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;background:#1c0f0a;color:#c4b5fd;font:12px monospace;padding:10px;white-space:pre-wrap;border-bottom:2px solid #22d3ee;"></div>
 <div class="aurora a1"></div>
 <div class="aurora a2"></div>
 <div class="aurora a3"></div>
@@ -313,7 +313,7 @@
       <div class="resetbadge" id="resetBadge">—</div>
     </div>
     <div class="legend">
-      <span><span class="dot" style="background:#a01d3a;box-shadow:0 0 6px #a01d3a"></span>lineáris terv</span>
+      <span><span class="dot" style="background:#22d3ee;box-shadow:0 0 6px #22d3ee"></span>lineáris terv</span>
       <span><span class="dot green"></span>maradék (napi + MA)</span>
       <span style="color:var(--gold-soft)">■ RESET</span>
     </div>
@@ -417,10 +417,10 @@
 
   function load(){
     try{ const s=JSON.parse(localStorage.getItem(STORE)); if(s&&typeof s==="object") return s; }catch(e){}
-    return {realPct:null, anchor:0, history:{}, notify:false};
+    return {realPct:null, anchor:2, history:{}, notify:false};
   }
   let state = load();
-  if(typeof state.anchor!=="number") state.anchor=0;   // 0 = Vasarnap (uj ciklus kezdete)
+  if(typeof state.anchor!=="number") state.anchor=2;   // 2 = Kedd (reset Kedd 22:11, eredeti beallitas)
   if(typeof state.history!=="object" || state.history===null) state.history={};
   if(typeof state.notify!=="boolean") state.notify=false;
   // === MIGRACIO: felhasznalt% -> maradek% (100-rol indul, 0-ra fut ki) ===
@@ -433,12 +433,12 @@
     // kozvetlen mentes (save() itt meg nem hivhato: backupBusy TDZ miatt), a kovetkezo render() ugyis ment
     localStorage.setItem(STORE, JSON.stringify(state));
   }
-  // === MIGRACIO: anchor -> Vasarnap (0), ha meg nem volt atallitva ===
-  // A felhasznalo kerte: a ciklus vasarnapon induljon. A regi mentett anchor (pl. Kedd=2)
-  // megmaradt volna, ezert egyszeri flaggel atvisszuk 0-ra.
-  if(!state.vAnchorVasarnap){
-    state.anchor = 0;   // 0 = Vasarnap
-    state.vAnchorVasarnap = true;
+  // MEGJEGYZES: anchor = Kedd (2), nem valtunk Vasarnapra. A korabbi vasarnap-migracio
+  // eltavolitva, mert a felhasznalo egyertelmuen Kedd 22:11-et kert.
+  // VISSZAVONAS: ha a vasarnap-migracio mar lefutott (vAnchorVasarnap flag), allitsuk vissza Kedvre.
+  if(state.vAnchorVasarnap && state.anchor!==2){
+    state.anchor = 2;
+    state.vAnchorVasarnap = false;   // flag torolve, nem fut ujra
     localStorage.setItem(STORE, JSON.stringify(state));
   }
   function save(){ localStorage.setItem(STORE, JSON.stringify(state)); localStorage.setItem("chatgpt_last_sync", String(Date.now())); syncBackup(); }
@@ -552,10 +552,10 @@
       pc.style.background="rgba(138,147,168,.15)"; pc.style.color="var(--muted)";
       pt.textContent="Nincs adat";
     } else if(c.delta>=0){   // tobb maradt a tervnel = jo (zold)
-      pc.style.background="rgba(212,160,90,.14)"; pc.style.color="var(--good)";
+      pc.style.background="rgba(167,139,250,.14)"; pc.style.color="var(--good)";
       pt.textContent=`Terv felett ${HF(c.delta)}% maradék`;
     } else {                  // kevesebb maradt = fogyó (bordó)
-      pc.style.background="rgba(160,29,58,.18)"; pc.style.color="var(--red)";
+      pc.style.background="rgba(34,211,238,.18)"; pc.style.color="var(--red)";
       pt.textContent=`Terv alatt ${HF(Math.abs(c.delta))}% maradék`;
     }
 
@@ -624,7 +624,7 @@
     const warnPct = (state.warnPct==null)? 15 : state.warnPct;  // 15% alatt maradek = veszely
     if(tTxt){
       if(projEnd < warnPct){ tTxt.textContent=`Veszély: ${HF(projEnd)}% maradék (kevés)`; tTxt.style.color="var(--red)"; notifyWarn(projEnd, c.start); }
-      else if(projEnd < warnPct*2){ tTxt.textContent=`Határon: ${HF(projEnd)}% maradék (${warnPct}% alatt)`; tTxt.style.color="var(--gold)"; }
+      else if(projEnd < warnPct*2){ tTxt.textContent=`Határon: ${HF(projEnd)}% maradék (${warnPct}% alatt)`; tTxt.style.color="var(--cyan)"; }
       else { tTxt.textContent=`Biztos: ${HF(projEnd)}% maradék`; tTxt.style.color="var(--good)"; }
     }
 
@@ -719,12 +719,12 @@
     // defs: gradient + glow szűrők
     s+=`<defs>
       <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#d4a05a" stop-opacity="0.30"/>
-        <stop offset="100%" stop-color="#d4a05a" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.30"/>
+        <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="realFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#d4a05a" stop-opacity="0.22"/>
-        <stop offset="100%" stop-color="#d4a05a" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
       </linearGradient>
       <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="3" result="b"/>
@@ -754,19 +754,19 @@
     // kitöltés a terv-görbe ALATT (maradék terület, a 0%-os aljáig)
     s+=`<path d="${pl} L ${X(7)} ${y0} L ${X(0)} ${y0} Z" fill="url(#fillGrad)"/>`;
     // terv vonal (glow nelkul, hogy Androidon is latszodjon) + animacio
-    s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#a01d3a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
+    s+=`<path class="ln-plan" pathLength="1" d="${pl}" fill="none" stroke="#22d3ee" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round"/>`;
     for(let i=0;i<8;i++){
       const v=100 - i*100/7;
-      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="6" fill="#a01d3a" stroke="#f3e9e2" stroke-width="1.5"/>`;
-      s+=`<text x="${X(i)}" y="${Y(v)-14}" fill="#e0b070" font-size="13" font-weight="800" text-anchor="middle" opacity=".95">${HF(v)}</text>`;
+      s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="6" fill="#22d3ee" stroke="#f3e9e2" stroke-width="1.5"/>`;
+      s+=`<text x="${X(i)}" y="${Y(v)-14}" fill="#c4b5fd" font-size="13" font-weight="800" text-anchor="middle" opacity=".95">${HF(v)}</text>`;
     }
     // MAI AKTUALIS pont: maradek = 100 - frac*100 helyen
     if(c && typeof c.frac==="number"){
       const mx=X(c.frac*7), my=Y(100 - c.frac*100);
       // fuggoleges vonalzar: a mai ponttol le a 0%-ig (hol tartasz most az idoben)
-      s+=`<line x1="${mx}" y1="${my}" x2="${mx}" y2="${y0}" stroke="#d4a05a" stroke-width="1" stroke-dasharray="2 3" opacity=".4"/>`;
-      s+=`<circle cx="${mx}" cy="${my}" r="7.2" fill="none" stroke="#d4a05a" stroke-width="2" opacity=".5"/>`;
-      s+=`<circle cx="${mx}" cy="${my}" r="5" fill="#d4a05a" stroke="#f3e9e2" stroke-width="2"/>`;
+      s+=`<line x1="${mx}" y1="${my}" x2="${mx}" y2="${y0}" stroke="#a78bfa" stroke-width="1" stroke-dasharray="2 3" opacity=".4"/>`;
+      s+=`<circle cx="${mx}" cy="${my}" r="7.2" fill="none" stroke="#a78bfa" stroke-width="2" opacity=".5"/>`;
+      s+=`<circle cx="${mx}" cy="${my}" r="5" fill="#a78bfa" stroke="#f3e9e2" stroke-width="2"/>`;
     }
     // valós napi gorbe: history -> ciklusnapi index szerint rendezve
     if(history && typeof history==="object"){
@@ -792,10 +792,10 @@
         pts.forEach(pt=>{ al+=` L ${X(pt[0])} ${Y(pt[1])}`; });
         al+=` L ${X(pts[pts.length-1][0])} ${y0} Z`;
         s+=`<path class="ln-real-area" d="${al}" fill="url(#realFill)" stroke="none" opacity=".5"/>`;
-        s+=`<path class="ln-real" pathLength="1" d="${rl}" fill="none" stroke="#d4a05a" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round" stroke-linejoin="round"/>`;
+        s+=`<path class="ln-real" pathLength="1" d="${rl}" fill="none" stroke="#a78bfa" stroke-width="2.5" filter="url(#glow)" stroke-linecap="round" stroke-linejoin="round"/>`;
         pts.forEach(pt=>{
           const px=X(pt[0]), py=Y(pt[1]);
-          s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="#d4a05a" stroke="#1c120c" stroke-width="1.5"/>`;
+          s+=`<circle cx="${px}" cy="${py}" r="3.2" fill="#a78bfa" stroke="#1c120c" stroke-width="1.5"/>`;
         });
       }
     }
@@ -805,10 +805,10 @@
     if(c.real!=null){
       const rx=X(c.frac*7), ry=Y(c.real);
       // valós függőleges guide
-      s+=`<line x1="${rx}" y1="${ry}" x2="${rx}" y2="${y0}" stroke="#e0b070" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
+      s+=`<line x1="${rx}" y1="${ry}" x2="${rx}" y2="${y0}" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
       // MA pulzáló halo
-      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#d4a05a" opacity=".25"><animate attributeName="r" values="6;11;6" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".30;.05;.30" dur="1.8s" repeatCount="indefinite"/></circle>`;
-      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#d4a05a" stroke="#1c120c" stroke-width="2" filter="url(#glow)"/>`;
+      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#a78bfa" opacity=".25"><animate attributeName="r" values="6;11;6" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".30;.05;.30" dur="1.8s" repeatCount="indefinite"/></circle>`;
+      s+=`<circle cx="${rx}" cy="${ry}" r="6" fill="#a78bfa" stroke="#1c120c" stroke-width="2" filter="url(#glow)"/>`;
       // MA szoveg KIVESZVE az SVG-bol (ne takarja a grafikont) -> nem jelenik meg sehol
     }
     try {
@@ -841,8 +841,8 @@
     bubblesGroup.setAttribute("id","bubbles");
     bubblePts = [];
     const COLORS = [
-      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#a01d3a" },
-      { n: 8,  r: 1.8, base: 0.065, op: 0.45, color: "#d4a05a" },
+      { n: 10, r: 2.2, base: 0.085, op: 0.55, color: "#22d3ee" },
+      { n: 8,  r: 1.8, base: 0.065, op: 0.45, color: "#a78bfa" },
       { n: 12, r: 1.5, base: 0.105, op: 0.40, color: "#8b5a2b" },
     ];
     COLORS.forEach(w=>{
